@@ -1,3 +1,5 @@
+import { getAssetUrl } from '../utils/asset';
+
 export const businessInfo = {
   name: "Ambition Real Estate",
   tagline: "आपका विश्वास, हमारी जिम्मेदारी",
@@ -16,7 +18,8 @@ export const businessInfo = {
   bookingFeature: "Flexible 25% Booking Option with 100% Clear Titles",
 };
 
-export const propertiesData = [
+const rawProperties = [
+
   {
     id: "dmart-duplex-houses",
     title: "Modern Luxury Duplex Houses",
@@ -248,6 +251,13 @@ export const propertiesData = [
     highlights: "An extraordinary turn-key agricultural and farmhouse investment with mature fruit orchards, independent power & abundant water."
   }
 ];
+
+export const propertiesData = rawProperties.map(p => ({
+  ...p,
+  image: getAssetUrl(p.image),
+  flyerImage: getAssetUrl(p.flyerImage),
+  altImage: p.altImage ? getAssetUrl(p.altImage) : undefined
+}));
 
 export const servicesData = [
   {

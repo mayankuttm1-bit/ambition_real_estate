@@ -5,6 +5,7 @@ import {
   Building2, Home, Landmark, Trees, Clock, Phone, Sparkles, MessageCircle, Navigation 
 } from 'lucide-react';
 import { businessInfo, propertiesData, testimonials } from '../data/properties';
+import { getAssetUrl } from '../utils/asset';
 import PropertyCard from '../components/common/PropertyCard';
 import EmiCalculator from '../components/common/EmiCalculator';
 
@@ -18,7 +19,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
         {/* Background Stock Image with Luxury Emerald Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/hero-luxury-4k.jpg"
+            src={getAssetUrl('/images/hero-luxury-4k.jpg')}
             alt="Ambition Real Estate Prime Luxury Estate"
             className="w-full h-full object-cover object-center scale-105 filter brightness-[0.52] contrast-[1.08] saturate-[1.12]"
           />
@@ -232,7 +233,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
                 {/* Stock Image: Luxury Villa Exterior */}
                 <div className="relative rounded-2xl overflow-hidden border border-luxury-border/60 h-44 group">
                   <img
-                    src="/images/luxury-villa-exterior.jpg"
+                    src={getAssetUrl('/images/luxury-villa-exterior.jpg')}
                     alt="Luxury Real Estate Portfolio"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -403,7 +404,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
             <div className="lg:col-span-5">
               <div className="relative rounded-2xl overflow-hidden border border-luxury-gold/40 shadow-2xl bg-luxury-dark">
                 <img
-                  src="/images/unnamed (10).png"
+                  src={getAssetUrl('/images/unnamed (10).png')}
                   alt="6-Lane Indore-Ujjain Highway Commercial Plot"
                   className="w-full h-auto object-cover"
                 />

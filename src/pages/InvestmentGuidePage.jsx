@@ -4,6 +4,7 @@ import {
   ArrowRight, Phone, MessageCircle, ShieldAlert, Award 
 } from 'lucide-react';
 import { businessInfo } from '../data/properties';
+import { getAssetUrl } from '../utils/asset';
 
 export default function InvestmentGuidePage({ onOpenBookingModal }) {
   const corridors = [
@@ -43,7 +44,7 @@ export default function InvestmentGuidePage({ onOpenBookingModal }) {
       <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/land-development.jpg"
+            src={getAssetUrl('/images/land-development.jpg')}
             alt="Ujjain Development Land"
             className="w-full h-full object-cover object-center filter brightness-[0.25] contrast-[1.15]"
           />

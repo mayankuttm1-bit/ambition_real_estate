@@ -4,6 +4,7 @@ import {
   ArrowRight, Phone, MessageCircle, Sparkles, FileText, BadgePercent 
 } from 'lucide-react';
 import { servicesData, businessInfo } from '../data/properties';
+import { getAssetUrl } from '../utils/asset';
 import EmiCalculator from '../components/common/EmiCalculator';
 
 export default function ServicesPage({ onOpenBookingModal }) {
@@ -28,7 +29,7 @@ export default function ServicesPage({ onOpenBookingModal }) {
       <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="/images/commercial-hub.jpg"
+            src={getAssetUrl('/images/commercial-hub.jpg')}
             alt="Commercial Architecture"
             className="w-full h-full object-cover object-center filter brightness-[0.24] contrast-[1.1]"
           />
