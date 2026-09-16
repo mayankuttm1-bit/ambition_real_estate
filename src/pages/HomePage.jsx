@@ -11,11 +11,8 @@ import PropertyCard from '../components/common/PropertyCard';
 import EmiCalculator from '../components/common/EmiCalculator';
 
 export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
-  const [showAllServices, setShowAllServices] = useState(false);
   const servicesScrollRef = useRef(null);
-  const featuredProperties = propertiesData.slice(0, 6);
-  const initialServices = servicesData.slice(0, 4);
-  const remainingServices = servicesData.slice(4);
+  const propertiesScrollRef = useRef(null);
 
   const scrollServices = (direction) => {
     if (servicesScrollRef.current) {
@@ -26,6 +23,17 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       });
     }
   };
+
+  const scrollProperties = (direction) => {
+    if (propertiesScrollRef.current) {
+      const scrollAmount = propertiesScrollRef.current.clientWidth * 0.88;
+      propertiesScrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
 
 
   const renderServiceIcon = (iconName) => {
@@ -344,21 +352,14 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
         <div className="absolute bottom-0 left-10 w-96 h-96 bg-luxury-deep/30 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
-          {/* Section Header */}
-          <div className="max-w-2xl space-y-3 border-b border-luxury-border/60 pb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/40">
-              <Sparkles size={13} />
-              <span>13 Specialized Real Estate Solutions</span>
-            </div>
+          {/* Section Header (Clean Title Only) */}
+          <div className="max-w-2xl border-b border-luxury-border/60 pb-6">
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
               Our Signature Services & Advisory
             </h2>
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-              From high-demand 4-lane commercial plots and luxury duplexes to scientific Comparative Market Analysis (CMA), Ambition Real Estate provides fiduciary guidance with zero hidden brokerage.
-            </p>
           </div>
 
-          {/* 1. Primary 4 Featured Services (Horizontal Scroll on Mobile, Grid on Desktop) */}
+          {/* 1. Services Container (Swipeable on Mobile, 4-Col Grid on Desktop) */}
           <div>
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
@@ -389,15 +390,15 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               </span>
             </div>
 
-            {/* Mobile Scrollable Container (1 Card per view), Desktop 4-Col Grid */}
+            {/* Mobile Scrollable Container (All 13 swipeable on mobile, top 4 grid on desktop) */}
             <div
               ref={servicesScrollRef}
               className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 scrollbar-none"
             >
-              {initialServices.map((service) => (
+              {servicesData.map((service, idx) => (
                 <div
                   key={service.id}
-                  className="w-[86vw] sm:w-[320px] shrink-0 snap-center md:w-auto md:shrink rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
+                  className={`${idx >= 4 ? 'flex md:hidden' : 'flex'} w-[86vw] sm:w-[320px] shrink-0 snap-center md:w-auto md:shrink rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group`}
                 >
                   <div className="space-y-4">
                     {/* Top Row: Icon and Badge */}
@@ -427,8 +428,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
                     {/* Key Features Bullet List */}
                     <ul className="space-y-2 pt-2 border-t border-luxury-border/50 text-[11px] text-gray-300">
-                      {service.items.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
+                      {service.items.slice(0, 3).map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
                           <CheckCircle2 size={13} className="text-luxury-gold shrink-0 mt-0.5" />
                           <span>{item}</span>
                         </li>
@@ -452,89 +453,15 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
             {/* Mobile swipe hint text */}
             <div className="flex md:hidden items-center justify-center pt-2 text-[11px] text-luxury-gold/80">
-              <span>← Swipe horizontally to view other services →</span>
+              <span>← Swipe horizontally to view all services →</span>
             </div>
           </div>
 
-          {/* 2. Optional Expandable Remaining 9 Services */}
-          {showAllServices && (
-            <div className="pt-6 border-t border-luxury-border/60 animate-fadeIn space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
-                  Additional 9 Advisory Capabilities
-                </span>
-                <span className="text-[11px] text-gray-400">
-                  Swipe or browse below
-                </span>
-              </div>
-
-              <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 scrollbar-none">
-                {remainingServices.map((service) => (
-                  <div
-                    key={service.id}
-                    className="w-[86vw] sm:w-[320px] shrink-0 snap-center md:w-auto md:shrink rounded-2xl bg-luxury-dark/80 border border-luxury-border/60 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="w-11 h-11 rounded-xl bg-luxury-surface border border-luxury-gold/40 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform">
-                          {renderServiceIcon(service.icon)}
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-luxury-gold/15 text-luxury-gold text-[10px] font-semibold uppercase tracking-wider border border-luxury-gold/30">
-                          {service.badge}
-                        </span>
-                      </div>
-
-                      <div>
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-1">
-                          {service.category}
-                        </span>
-                        <h3 className="font-serif text-base font-bold text-white group-hover:text-luxury-gold transition-colors leading-snug">
-                          {service.title}
-                        </h3>
-                      </div>
-
-                      <p className="text-xs text-gray-300 leading-relaxed">
-                        {service.shortDesc}
-                      </p>
-
-                      <ul className="space-y-1.5 pt-2 border-t border-luxury-border/40 text-[11px] text-gray-300">
-                        {service.items.slice(0, 3).map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 size={12} className="text-luxury-gold shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-5">
-                      <button
-                        onClick={() => onOpenBookingModal({ title: service.title })}
-                        className="w-full py-2 rounded-xl bg-luxury-surface/50 hover:bg-luxury-gold hover:text-luxury-darkest text-gray-200 border border-luxury-border text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
-                      >
-                        <span>Schedule Advisory</span>
-                        <ArrowRight size={13} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Clean, Simple Single "Show More" Button */}
-          <div className="pt-2 text-center flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button
-              onClick={() => setShowAllServices(!showAllServices)}
-              className="px-6 py-3 rounded-xl bg-luxury-surface/80 hover:bg-luxury-surface text-luxury-gold border border-luxury-gold/40 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-md"
-            >
-              <span>{showAllServices ? 'Show 4 Featured Only' : `Show More Services (${remainingServices.length} More)`}</span>
-              {showAllServices ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-            </button>
-
+          {/* Only Keep View Full Services Page Button */}
+          <div className="pt-2 text-center flex items-center justify-center">
             <Link
               to="/services"
-              className="px-6 py-3 rounded-xl bg-luxury-gold hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md transition-all hover:scale-105 active:scale-95"
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95"
             >
               <span>View Full Services Page</span>
               <ArrowRight size={14} />
@@ -544,10 +471,10 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
 
-      {/* 3. Featured Properties Showcase */}
+      {/* 3. Featured Properties Showcase (All Properties Scrollable) */}
       <section className="py-16 bg-luxury-paper">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <span className="text-xs font-semibold uppercase tracking-widest text-luxury-gold-dark font-serif block mb-1">
                 Handpicked Investment Assets
@@ -555,31 +482,65 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-luxury-ink">
                 Featured Properties & Highway Land
               </h2>
-              <p className="text-xs sm:text-sm text-gray-500 mt-2 max-w-xl">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1 max-w-xl">
                 Direct listings verified by Ambition Real Estate with exact dimensions, pricing transparency, and site visit access.
               </p>
             </div>
 
-            <Link
-              to="/properties"
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-luxury-deep hover:text-luxury-gold-dark transition-colors"
-            >
-              <span>View All 8+ Listings</span>
-              <ArrowRight size={14} />
-            </Link>
+            <div className="flex items-center gap-3">
+              {/* Mobile Scroll Navigation Controls for Properties */}
+              <div className="flex md:hidden items-center gap-2 text-xs">
+                <span className="text-[11px] text-gray-500">Swipe</span>
+                <button
+                  onClick={() => scrollProperties('left')}
+                  className="w-8 h-8 rounded-full bg-white border border-luxury-border text-luxury-deep flex items-center justify-center active:scale-90 shadow-sm"
+                  aria-label="Previous property"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  onClick={() => scrollProperties('right')}
+                  className="w-8 h-8 rounded-full bg-white border border-luxury-border text-luxury-deep flex items-center justify-center active:scale-90 shadow-sm"
+                  aria-label="Next property"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+
+              <Link
+                to="/properties"
+                className="hidden md:inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-luxury-deep hover:text-luxury-gold-dark transition-colors"
+              >
+                <span>View All {propertiesData.length} Listings</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
 
-          {/* Grid of properties */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
-              <PropertyCard
+          {/* All Properties (Scrollable 1-Card view on Mobile, 3-Col Grid on Desktop) */}
+          <div
+            ref={propertiesScrollRef}
+            className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 scrollbar-none"
+          >
+            {propertiesData.map((property) => (
+              <div
                 key={property.id}
-                property={property}
-                onSelect={onSelectProperty}
-                onBookVisit={onOpenBookingModal}
-              />
+                className="w-[88vw] sm:w-[350px] shrink-0 snap-center md:w-auto md:shrink flex flex-col"
+              >
+                <PropertyCard
+                  property={property}
+                  onSelect={onSelectProperty}
+                  onBookVisit={onOpenBookingModal}
+                />
+              </div>
             ))}
           </div>
+
+          {/* Mobile swipe hint for properties */}
+          <div className="flex md:hidden items-center justify-center pt-2 text-[11px] text-gray-500">
+            <span>← Swipe horizontally to view all {propertiesData.length} properties →</span>
+          </div>
+
 
           <div className="mt-12 text-center">
             <Link
