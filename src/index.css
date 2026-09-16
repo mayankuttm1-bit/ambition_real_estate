@@ -62,7 +62,17 @@
     transform: translateY(-5px);
     box-shadow: 0 20px 35px -10px rgba(8, 37, 28, 0.3), 0 0 20px rgba(197, 160, 89, 0.15);
   }
+
+  /* Hide scrollbar for carousel while preserving smooth touch scroll */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
+
 
 /* Global Smooth scrolling & selection */
 html {

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Star, MapPin, ShieldCheck, ArrowRight, CheckCircle2, 
   Building2, Home, Landmark, Trees, Clock, Phone, Sparkles, MessageCircle, Navigation,
-  ChevronDown, ChevronUp, UserCheck, Briefcase, BarChart3, Map, Hammer, Compass, TrendingUp, Coins, FileSearch, Tag
+  ChevronDown, ChevronUp, ChevronLeft, ChevronRight, UserCheck, Briefcase, BarChart3, Map, Hammer, Compass, TrendingUp, Coins, FileSearch, Tag
 } from 'lucide-react';
 import { businessInfo, propertiesData, testimonials, servicesData } from '../data/properties';
 import { getAssetUrl } from '../utils/asset';
@@ -11,10 +11,36 @@ import PropertyCard from '../components/common/PropertyCard';
 import EmiCalculator from '../components/common/EmiCalculator';
 
 export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
-  const [showAllServices, setShowAllServices] = useState(false);
   const featuredProperties = propertiesData.slice(0, 6);
-  const initialServices = servicesData.slice(0, 4);
-  const remainingServices = servicesData.slice(4);
+  const servicesSliderRef = useRef(null);
+  const [activeServiceIdx, setActiveServiceIdx] = useState(0);
+
+  const handleServicesScroll = () => {
+    if (servicesSliderRef.current) {
+      const { scrollLeft, clientWidth } = servicesSliderRef.current;
+      if (clientWidth > 0) {
+        const idx = Math.round(scrollLeft / clientWidth);
+        setActiveServiceIdx(Math.min(Math.max(0, idx), servicesData.length - 1));
+      }
+    }
+  };
+
+  const scrollServicesTo = (idx) => {
+    if (servicesSliderRef.current) {
+      const targetLeft = idx * servicesSliderRef.current.clientWidth;
+      servicesSliderRef.current.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      setActiveServiceIdx(idx);
+    }
+  };
+
+  const scrollServicesPrev = () => {
+    scrollServicesTo(Math.max(0, activeServiceIdx - 1));
+  };
+
+  const scrollServicesNext = () => {
+    scrollServicesTo(Math.min(servicesData.length - 1, activeServiceIdx + 1));
+  };
+
 
   const renderServiceIcon = (iconName) => {
     switch (iconName) {
@@ -325,211 +351,185 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
         </div>
       </section>
 
-      {/* 2.8 Specialized Real Estate Services Section (4 Featured + Expandable All 13) */}
+      {/* 2.8 Specialized Real Estate Services Section (Single-Service Left-Scrollable Carousel + Show More) */}
       <section id="services" className="py-20 bg-luxury-darkest text-white relative border-b border-luxury-border overflow-hidden">
-        {/* Ambient Gold & Emerald Shimmer Background */}
+        {/* Ambient Shimmer Background */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-luxury-gold/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-10 w-96 h-96 bg-luxury-deep/30 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
           {/* Section Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-luxury-border/60 pb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-luxury-border/60 pb-6">
             <div className="max-w-2xl space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/40">
                 <Sparkles size={13} />
-                <span>13 Specialized Real Estate Solutions</span>
+                <span>Our Core Capabilities • 13 Solutions</span>
               </div>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                Our Signature Services & Advisory
+                Specialized Real Estate Services
               </h2>
               <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-                From high-demand 4-lane commercial plots and luxury duplexes to scientific Comparative Market Analysis (CMA), Ambition Real Estate provides fiduciary guidance with zero hidden brokerage.
+                Swipe left or use the arrows to view our 13 specialized services, from highway commercial land acquisition to turnkey construction.
               </p>
             </div>
 
+            {/* Slider Navigation Arrows in Header */}
             <div className="flex items-center gap-3 shrink-0">
               <button
-                onClick={() => setShowAllServices(!showAllServices)}
-                className="px-5 py-3 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95"
+                onClick={scrollServicesPrev}
+                disabled={activeServiceIdx === 0}
+                className={`p-3 rounded-full border transition-all ${
+                  activeServiceIdx === 0
+                    ? 'border-white/10 text-gray-600 cursor-not-allowed'
+                    : 'border-luxury-gold/40 text-luxury-gold hover:bg-luxury-gold hover:text-luxury-darkest hover:scale-105 active:scale-95'
+                }`}
+                aria-label="Previous Service"
               >
-                <span>{showAllServices ? 'Show 4 Featured' : `View All 13 Services (${remainingServices.length} More)`}</span>
-                {showAllServices ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                <ChevronLeft size={20} />
+              </button>
+
+              <span className="text-xs font-mono font-bold text-luxury-gold px-2">
+                {String(activeServiceIdx + 1).padStart(2, '0')} / {String(servicesData.length).padStart(2, '0')}
+              </span>
+
+              <button
+                onClick={scrollServicesNext}
+                disabled={activeServiceIdx === servicesData.length - 1}
+                className={`p-3 rounded-full border transition-all ${
+                  activeServiceIdx === servicesData.length - 1
+                    ? 'border-white/10 text-gray-600 cursor-not-allowed'
+                    : 'border-luxury-gold/40 text-luxury-gold hover:bg-luxury-gold hover:text-luxury-darkest hover:scale-105 active:scale-95'
+                }`}
+                aria-label="Next Service"
+              >
+                <ChevronRight size={20} />
               </button>
             </div>
           </div>
 
-          {/* 1. Primary 4 Featured Services Grid */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
-                Featured Core Capabilities
-              </span>
-              <span className="text-[11px] text-gray-400">
-                Showing 4 of 13 Services
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {initialServices.map((service) => (
+          {/* Single-Card Horizontal Scrollable Container (Swipe left to view more) */}
+          <div className="relative">
+            <div
+              ref={servicesSliderRef}
+              onScroll={handleServicesScroll}
+              className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar rounded-3xl"
+              style={{ WebkitOverflowScrolling: 'touch' }}
+            >
+              {servicesData.map((service, idx) => (
                 <div
                   key={service.id}
-                  className="rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
+                  className="w-full min-w-full flex-shrink-0 snap-center py-2"
                 >
-                  <div className="space-y-4">
-                    {/* Top Row: Icon and Badge */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="w-12 h-12 rounded-xl bg-luxury-surface border border-luxury-gold/40 flex items-center justify-center text-luxury-gold shadow-md group-hover:scale-110 transition-transform">
-                        {renderServiceIcon(service.icon)}
+                  <div className="rounded-3xl bg-luxury-dark/95 border border-luxury-gold/40 p-6 sm:p-10 shadow-2xl space-y-8 relative overflow-hidden group hover:border-luxury-gold transition-colors">
+                    {/* Top Status Strip */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-luxury-border/60 pb-5">
+                      <div className="flex items-center gap-2">
+                        <span className="px-3 py-1 rounded-full bg-luxury-surface border border-luxury-border text-xs font-bold uppercase tracking-wider text-gray-300">
+                          {service.category}
+                        </span>
+                        <span className="px-2.5 py-1 rounded-full bg-luxury-gold/15 text-luxury-gold text-xs font-mono font-bold border border-luxury-gold/30">
+                          Service {idx + 1} of {servicesData.length}
+                        </span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full bg-luxury-gold/15 text-luxury-gold text-[10px] font-bold uppercase tracking-wider border border-luxury-gold/30">
+
+                      <span className="px-3.5 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-bold uppercase tracking-wider border border-luxury-gold/40 shadow-sm">
                         {service.badge}
                       </span>
                     </div>
 
-                    {/* Title & Category */}
-                    <div>
-                      <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-1">
-                        {service.category}
-                      </span>
-                      <h3 className="font-serif text-lg font-bold text-white group-hover:text-luxury-gold transition-colors leading-snug">
-                        {service.title}
-                      </h3>
+                    {/* Main Card Content (2 Column Layout) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      {/* Left: Icon, Title & Narrative */}
+                      <div className="lg:col-span-7 space-y-5">
+                        <div className="w-16 h-16 rounded-2xl bg-luxury-surface border-2 border-luxury-gold/50 flex items-center justify-center text-luxury-gold shadow-lg group-hover:scale-105 transition-transform">
+                          {renderServiceIcon(service.icon)}
+                        </div>
+
+                        <div>
+                          <h3 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white group-hover:text-luxury-gold transition-colors leading-tight">
+                            {service.title}
+                          </h3>
+                          <p className="text-xs sm:text-sm text-luxury-gold font-medium mt-1">
+                            Ambition Real Estate Verified Practice
+                          </p>
+                        </div>
+
+                        <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                          {service.fullDesc || service.shortDesc}
+                        </p>
+
+                        <div className="pt-2">
+                          <button
+                            onClick={() => onOpenBookingModal({ title: service.title })}
+                            className="px-6 py-3 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark text-luxury-darkest font-bold text-xs uppercase tracking-wider hover:brightness-110 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+                          >
+                            <span>Inquire About This Service</span>
+                            <ArrowRight size={14} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right: Key Deliverables & Fiduciary Benefits */}
+                      <div className="lg:col-span-5">
+                        <div className="p-6 rounded-2xl bg-luxury-surface/50 border border-luxury-border space-y-4 shadow-inner">
+                          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-luxury-gold">
+                            <ShieldCheck size={16} />
+                            <span>What We Deliver & Guarantee</span>
+                          </div>
+
+                          <ul className="space-y-2.5 text-xs text-gray-200">
+                            {service.items.map((item, itemIdx) => (
+                              <li key={itemIdx} className="flex items-start gap-2.5">
+                                <CheckCircle2 size={14} className="text-luxury-gold shrink-0 mt-0.5" />
+                                <span className="leading-relaxed">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+
+                          <div className="pt-3 border-t border-luxury-border/50 text-[11px] text-gray-400 italic">
+                            Strict legal chain verification • Spot on-ground demarcation
+                          </div>
+                        </div>
+                      </div>
                     </div>
-
-                    {/* Short Description */}
-                    <p className="text-xs text-gray-300 leading-relaxed">
-                      {service.shortDesc}
-                    </p>
-
-                    {/* Key Features Bullet List */}
-                    <ul className="space-y-2 pt-2 border-t border-luxury-border/50 text-[11px] text-gray-300">
-                      {service.items.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <CheckCircle2 size={13} className="text-luxury-gold shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Card Action */}
-                  <div className="pt-6">
-                    <button
-                      onClick={() => onOpenBookingModal({ title: service.title })}
-                      className="w-full py-2.5 rounded-xl bg-luxury-surface/70 hover:bg-luxury-gold hover:text-luxury-darkest text-white border border-luxury-gold/40 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
-                    >
-                      <span>Inquire / Consult</span>
-                      <ArrowRight size={13} />
-                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* 2. Expandable Remaining 9 Services */}
-          {showAllServices && (
-            <div className="pt-6 border-t border-luxury-border/60 animate-fadeIn space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
-                    Additional 9 Specialized Real Estate Services
-                  </span>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    Explore our full advisory spectrum including development consulting, construction management, and buyer/seller agency.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {remainingServices.map((service) => (
-                  <div
-                    key={service.id}
-                    className="rounded-2xl bg-luxury-dark/80 border border-luxury-border/60 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
-                  >
-                    <div className="space-y-4">
-                      {/* Top Row */}
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="w-11 h-11 rounded-xl bg-luxury-surface border border-luxury-gold/40 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform">
-                          {renderServiceIcon(service.icon)}
-                        </div>
-                        <span className="px-2.5 py-0.5 rounded-full bg-luxury-gold/15 text-luxury-gold text-[10px] font-semibold uppercase tracking-wider border border-luxury-gold/30">
-                          {service.badge}
-                        </span>
-                      </div>
-
-                      {/* Title & Category */}
-                      <div>
-                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-1">
-                          {service.category}
-                        </span>
-                        <h3 className="font-serif text-base font-bold text-white group-hover:text-luxury-gold transition-colors leading-snug">
-                          {service.title}
-                        </h3>
-                      </div>
-
-                      {/* Short Description */}
-                      <p className="text-xs text-gray-300 leading-relaxed">
-                        {service.shortDesc}
-                      </p>
-
-                      {/* Features */}
-                      <ul className="space-y-1.5 pt-2 border-t border-luxury-border/40 text-[11px] text-gray-300">
-                        {service.items.slice(0, 3).map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 size={12} className="text-luxury-gold shrink-0 mt-0.5" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-5">
-                      <button
-                        onClick={() => onOpenBookingModal({ title: service.title })}
-                        className="w-full py-2 rounded-xl bg-luxury-surface/50 hover:bg-luxury-gold hover:text-luxury-darkest text-gray-200 border border-luxury-border text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
-                      >
-                        <span>Schedule Advisory</span>
-                        <ArrowRight size={13} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Bottom Action Strip */}
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-luxury-dark border border-luxury-border">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-luxury-surface flex items-center justify-center text-luxury-gold shrink-0">
-                <ShieldCheck size={20} />
-              </div>
-              <div>
-                <h4 className="font-serif font-bold text-sm text-white">Looking for Custom Advisory or Large-scale Land Aggregation?</h4>
-                <p className="text-xs text-gray-400">Speak directly with Senior Advisor Ujjwal Tiwari for tailored negotiations.</p>
-              </div>
+          {/* Bottom Slider Dots & See More Button */}
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-5 border-t border-luxury-border/60">
+            {/* Interactive Dot Indicators */}
+            <div className="flex items-center gap-1.5 overflow-x-auto py-1 max-w-full">
+              {servicesData.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => scrollServicesTo(dotIdx)}
+                  className={`transition-all rounded-full ${
+                    activeServiceIdx === dotIdx
+                      ? 'w-7 h-2.5 bg-luxury-gold shadow-md shadow-amber-900/50'
+                      : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/40'
+                  }`}
+                  aria-label={`Go to service ${dotIdx + 1}`}
+                />
+              ))}
             </div>
 
+            {/* Clean Show More Button (Direct link to /services page) */}
             <div className="flex items-center gap-3 shrink-0">
-              <button
-                onClick={() => setShowAllServices(!showAllServices)}
-                className="px-5 py-2.5 rounded-xl bg-luxury-surface hover:bg-luxury-surface/80 text-luxury-gold border border-luxury-gold/40 text-xs font-bold uppercase tracking-wider transition-all"
-              >
-                {showAllServices ? 'Collapse Services' : 'Show All 13 Services'}
-              </button>
-
               <Link
                 to="/services"
-                className="px-5 py-2.5 rounded-xl bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 flex items-center gap-1.5 shadow-md transition-all"
+                className="px-6 py-3 rounded-xl bg-luxury-surface hover:bg-luxury-surface/80 text-luxury-gold border border-luxury-gold/50 text-xs font-bold uppercase tracking-wider shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
               >
-                <span>Full Services Page</span>
-                <ArrowRight size={13} />
+                <span>See More Services</span>
+                <ArrowRight size={14} />
               </Link>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* 3. Featured Properties Showcase */}
       <section className="py-16 bg-luxury-paper">
