@@ -50,6 +50,23 @@
     backdrop-filter: blur(12px);
     border: 1px solid rgba(197, 160, 89, 0.25);
   }
+
+  /* Smooth luxury card interactive hover */
+  .luxury-card-interactive {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.35s ease;
+  }
+
+  .luxury-card-interactive:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 35px -10px rgba(8, 37, 28, 0.3), 0 0 20px rgba(197, 160, 89, 0.15);
+  }
+}
+
+/* Global Smooth scrolling & selection */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Custom smooth scrollbar */
@@ -66,3 +83,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #a8813a;
 }
+

@@ -261,58 +261,215 @@ export const propertiesData = rawProperties.map(p => ({
 
 export const servicesData = [
   {
-    id: "residential",
-    title: "Residential Services",
-    icon: "Home",
-    description: "End-to-end guidance for families and home seekers across Ujjain and Indore Road.",
+    id: "luxury-property-buying-sales",
+    title: "Luxury Property Buying and Sales",
+    category: "Residential & Luxury",
+    badge: "Signature Collection",
+    icon: "Sparkles",
+    isHomeFeatured: true,
+    shortDesc: "Bespoke brokerage for premier bungalows, designer duplexes, and luxury farm estates along the Indore-Ujjain corridor.",
+    fullDesc: "We curate the finest residential luxury homes in Ujjain's most sought-after nodes. From custom-built duplex villas opposite D-Mart to expansive rural farmhouses, our advisory ensures prestigious living with verified clear titles.",
     items: [
-      "Ready-to-Move Duplex Homes & Independent Houses",
-      "Gated Colony Residential Plots (800 to 2400 sq.ft)",
-      "Luxury Villa Purchase & Architectural Coordination",
-      "New Construction Advisory & Contractor Supervision",
-      "Complete Registry, Mutation & Title Verification"
+      "Signature 25% Token Booking arrangement",
+      "Ready-to-move & custom architectural duplexes",
+      "Confidential high-net-worth deal handling",
+      "Complete Vastu compliance & luxury interior reviews"
     ]
   },
   {
-    id: "commercial",
-    title: "Commercial Property Services",
+    id: "commercial-property-buying-sales",
+    title: "Commercial Property Buying and Sales",
+    category: "Commercial & Land",
+    badge: "High ROI Frontage",
     icon: "Building2",
-    description: "High-yield commercial assets engineered for business owners, franchisors, and investors.",
+    isHomeFeatured: true,
+    shortDesc: "Acquisition and sale of prime 4-lane & 6-lane touch commercial plots, retail showrooms, and highway development assets.",
+    fullDesc: "Accelerate your enterprise or rental yield portfolio with high-traffic commercial land on the bustling Indore-Ujjain Highway. We broker verified frontage plots opposite D-Mart and near Toll Plaza designed for showrooms, bank branches, and retail hubs.",
     items: [
-      "Four-Lane Highway Commercial Frontage Plots",
-      "Retail Showroom, Bank & Office Space Acquisition",
-      "Highway Land for Petrol Pumps, Hotels & Resorts",
-      "Commercial Property Feasibility & Rental Yield Projections",
-      "Tenant Negotiation & Long-Term Lease Advisory"
+      "4-lane & 6-lane highway touch commercial plots",
+      "Plots from 1,040 sq.ft to 15,000+ sq.ft frontage",
+      "Comprehensive zoning & masterplan verification",
+      "Direct owner negotiations without middleman markups"
     ]
   },
   {
-    id: "advisory",
-    title: "Advisory & Consulting",
-    icon: "TrendingUp",
-    description: "Data-backed market intelligence to maximize capital appreciation and minimize risks.",
+    id: "land-buying-sales",
+    title: "Land Buying and Sales",
+    category: "Commercial & Land",
+    badge: "100% Registry Ready",
+    icon: "Map",
+    isHomeFeatured: true,
+    shortDesc: "End-to-end facilitation for colony residential plots, corner parcels, agro-farm estates, and strategic highway land.",
+    fullDesc: "Whether securing a 600–2,400 sq.ft residential plot in Shivansh Valley, Dewas Road, or a vast 77-bigha agricultural orchard, Ambition Real Estate delivers spotless registry diligence, demarcation, and spot possession.",
     items: [
-      "Comparative Property Market Analysis (CMA)",
-      "Large-scale Township & Colony Development Consulting",
-      "Regulatory & Masterplan Impact Assessments (Simhastha Corridor)",
-      "Clear Title & Legal Due Diligence",
-      "Agricultural-to-Non-Agricultural (Diversion) Advisory"
+      "Approved gated colony plots & corner parcels",
+      "Large-scale agricultural land with independent tubewells",
+      "Spot physical demarcation and boundary fencing assistance",
+      "Mutation, diversion, and sub-registrar paperwork support"
     ]
   },
   {
-    id: "representation",
-    title: "Client Representation",
+    id: "comparative-property-market-analysis",
+    title: "Comparative Property Market Analysis",
+    category: "Advisory & Consulting",
+    badge: "Data-Backed Precision",
+    icon: "BarChart3",
+    isHomeFeatured: true,
+    shortDesc: "Scientific valuation reports comparing historical sales, circle rates, and infrastructure roadmaps across Ujjain.",
+    fullDesc: "Make informed buying or selling decisions backed by concrete data. Our Comparative Market Analysis (CMA) models recent registry rates, four-lane expansion impacts, and future Simhastha appreciation benchmarks so you never overpay or undersell.",
+    items: [
+      "Government guideline (circle rate) vs real market analysis",
+      "Infrastructure corridor appreciation forecasting",
+      "Fair market value appraisal for buyers and sellers",
+      "Investment payback and capitalization rate estimates"
+    ]
+  },
+  {
+    id: "buying-agent-services",
+    title: "Buying Agent Services",
+    category: "Client Representation",
+    badge: "Buyer's Fiduciary",
+    icon: "UserCheck",
+    isHomeFeatured: false,
+    shortDesc: "Dedicated buyer representation focused on locating properties matching your exact budget and location criteria.",
+    fullDesc: "As your dedicated buying agent, we represent only your best interests. We filter through off-market listings, conduct rigorous price counter-negotiations, verify title chains, and protect your capital from fraudulent deals.",
+    items: [
+      "Targeted property search tailored to your specific budget",
+      "Rigorous price counter-negotiation on your behalf",
+      "Zero hidden fees and transparent brokerage terms",
+      "Accompanied site visits with Senior Advisor Ujjwal Tiwari"
+    ]
+  },
+  {
+    id: "sellers-agent-services",
+    title: "Seller's Agent Services",
+    category: "Client Representation",
+    badge: "Maximum Valuation",
     icon: "ShieldCheck",
-    description: "Fiduciary representation keeping your interests front and center at every negotiation.",
+    isHomeFeatured: false,
+    shortDesc: "Professional property marketing, flyer distribution, qualified buyer vetting, and seamless closing for property owners.",
+    fullDesc: "Sell your land, home, or commercial space faster and at maximum market value. We leverage verified investor networks, digital marketing, local flyer distribution, and pre-screen serious buyers with verified purchasing power.",
     items: [
-      "Buyer's Agent: Dedicated property hunt based on strict budget parameters",
-      "Seller's Agent: Premium marketing, flyer promotion & qualified buyer screening",
-      "100% Transparent negotiations without hidden brokerage surprises",
-      "Flexible 25% Token Booking arrangements with verified builders",
-      "Hassle-free registry support at sub-registrar office"
+      "Professional promotional flyers and marketing campaigns",
+      "Direct exposure to 1,000+ active Ujjain & Indore investors",
+      "Screening of qualified buyers to eliminate time-wasters",
+      "Complete closing facilitation and legal transfer assistance"
+    ]
+  },
+  {
+    id: "home-buying-and-sales",
+    title: "Home Buying and Sales",
+    category: "Residential & Luxury",
+    badge: "Ready-to-Move",
+    icon: "Home",
+    isHomeFeatured: false,
+    shortDesc: "Connecting families with ready-to-move and under-construction independent houses, duplexes, and family villas.",
+    fullDesc: "From 15x40 starter duplexes to expansive 25x50 family residences, we streamline your journey to homeownership. We coordinate bank loan approvals, structure flexible token down payments, and inspect construction quality.",
+    items: [
+      "Pre-screened independent houses and duplexes",
+      "Tie-ups with leading national banks for home loans",
+      "Assistance with water, electricity, and municipal sanctions",
+      "Move-in ready handovers with clear occupancy"
+    ]
+  },
+  {
+    id: "commercial-property-consulting",
+    title: "Commercial Property Consulting",
+    category: "Commercial & Land",
+    badge: "Yield Optimization",
+    icon: "Briefcase",
+    isHomeFeatured: false,
+    shortDesc: "Strategic consulting for commercial development, tenant positioning, rental yield modeling, and asset repositioning.",
+    fullDesc: "Unlock the maximum commercial potential of your highway property. We evaluate foot traffic demographics, optimal commercial zoning, frontage utilization, and lease terms for corporate tenants, showrooms, and retail franchises.",
+    items: [
+      "Footfall & vehicular traffic density assessment",
+      "Corporate franchise & banking tenant suitability analysis",
+      "Commercial lease structuring & rental yield maximization",
+      "Highway access and municipal commercial clearance guidance"
+    ]
+  },
+  {
+    id: "new-construction-services",
+    title: "New Construction Services",
+    category: "Residential & Luxury",
+    badge: "Turnkey Quality",
+    icon: "Hammer",
+    isHomeFeatured: false,
+    shortDesc: "Supervision, contractor coordination, and turnkey construction management for custom-built homes and commercial units.",
+    fullDesc: "Own a plot and want to build your dream home or commercial showroom? We connect you with vetted architects, RCC engineers, and material suppliers, supervising build phases to ensure structural durability and timely completion.",
+    items: [
+      "Architectural planning & 2D/3D elevation coordination",
+      "RCC structural supervision & material quality audits",
+      "Cost budgeting and milestone-based contractor payments",
+      "Municipal building permission and completion approvals"
+    ]
+  },
+  {
+    id: "property-development-consulting",
+    title: "Property Development Consulting",
+    category: "Advisory & Consulting",
+    badge: "Township Masterplans",
+    icon: "Compass",
+    isHomeFeatured: false,
+    shortDesc: "Holistic advisory for colonization projects, private townships, plotted layouts, and diversion approvals.",
+    fullDesc: "We assist land aggregators and builders in conceptualizing high-demand colonies and commercial strips. From layout designing with optimal road widths to TNCP / RERA documentation and marketing launch strategies.",
+    items: [
+      "Colony plotted layout planning (roads, drainage, gardens)",
+      "Agricultural-to-Non-Agricultural (Diversion) advisory",
+      "TNCP, RERA, and local municipality compliance roadmap",
+      "Pre-launch marketing, flyer design, and sales strategy"
+    ]
+  },
+  {
+    id: "property-investment-consulting",
+    title: "Property Investment Consulting",
+    category: "Advisory & Consulting",
+    badge: "Wealth Creation",
+    icon: "TrendingUp",
+    isHomeFeatured: false,
+    shortDesc: "Portfolio advisory targeting high-growth corridors primed for Simhastha 2028 infrastructure capital appreciation.",
+    fullDesc: "Identify high-velocity growth corridors before prices skyrocket. We advise individual and institutional investors on phased land banking, rental yield properties, and commercial opportunities along the Indore-Ujjain economic corridor.",
+    items: [
+      "Simhastha 2028 infrastructure impact projections",
+      "Corridor analysis: Indore Rd vs Dewas Rd vs Sanwer Bypass",
+      "Calculated entry & exit strategy for maximum ROI",
+      "Risk assessment and portfolio diversification"
+    ]
+  },
+  {
+    id: "property-sales",
+    title: "Property Sales",
+    category: "Client Representation",
+    badge: "Swift Liquidation",
+    icon: "Coins",
+    isHomeFeatured: false,
+    shortDesc: "Direct liquidation services for residential plots, commercial units, and agricultural parcels at competitive market values.",
+    fullDesc: "Need to liquidate an existing real estate asset? Our network ensures quick buyer matching, prompt token collection, verified escrow coordination, and seamless execution of sub-registrar deeds without legal delays.",
+    items: [
+      "Immediate matching with pre-vetted buyer waitlists",
+      "Clear token booking contracts to prevent defaults",
+      "Assistance clearing encumbrances and municipal taxes",
+      "Full settlement and legal registry handoff"
+    ]
+  },
+  {
+    id: "residential-property-consulting",
+    title: "Residential Property Consulting",
+    category: "Residential & Luxury",
+    badge: "Family Focus",
+    icon: "FileSearch",
+    isHomeFeatured: false,
+    shortDesc: "Personalized guidance on neighbourhood safety, water tables, connectivity, and long-term livability for families.",
+    fullDesc: "Choosing a family home requires looking beyond just square footage. We provide unvarnished advice on water quality, electricity stability, school bus routes, safety, and colony maintenance so you make the best choice for your family.",
+    items: [
+      "Water source & groundwater feasibility checks",
+      "Connectivity to major schools, hospitals, and transit hubs",
+      "Gated community security and resident association reviews",
+      "Resale liquidity and long-term capital preservation"
     ]
   }
 ];
+
 
 export const testimonials = [
   {

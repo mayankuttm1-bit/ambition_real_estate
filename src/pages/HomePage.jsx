@@ -2,15 +2,39 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Star, MapPin, ShieldCheck, ArrowRight, CheckCircle2, 
-  Building2, Home, Landmark, Trees, Clock, Phone, Sparkles, MessageCircle, Navigation 
+  Building2, Home, Landmark, Trees, Clock, Phone, Sparkles, MessageCircle, Navigation,
+  ChevronDown, ChevronUp, UserCheck, Briefcase, BarChart3, Map, Hammer, Compass, TrendingUp, Coins, FileSearch, Tag
 } from 'lucide-react';
-import { businessInfo, propertiesData, testimonials } from '../data/properties';
+import { businessInfo, propertiesData, testimonials, servicesData } from '../data/properties';
 import { getAssetUrl } from '../utils/asset';
 import PropertyCard from '../components/common/PropertyCard';
 import EmiCalculator from '../components/common/EmiCalculator';
 
 export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
+  const [showAllServices, setShowAllServices] = useState(false);
   const featuredProperties = propertiesData.slice(0, 6);
+  const initialServices = servicesData.slice(0, 4);
+  const remainingServices = servicesData.slice(4);
+
+  const renderServiceIcon = (iconName) => {
+    switch (iconName) {
+      case 'Sparkles': return <Sparkles size={22} className="text-luxury-gold" />;
+      case 'Building2': return <Building2 size={22} className="text-luxury-gold" />;
+      case 'Map': return <Map size={22} className="text-luxury-gold" />;
+      case 'BarChart3': return <BarChart3 size={22} className="text-luxury-gold" />;
+      case 'UserCheck': return <UserCheck size={22} className="text-luxury-gold" />;
+      case 'ShieldCheck': return <ShieldCheck size={22} className="text-luxury-gold" />;
+      case 'Home': return <Home size={22} className="text-luxury-gold" />;
+      case 'Briefcase': return <Briefcase size={22} className="text-luxury-gold" />;
+      case 'Hammer': return <Hammer size={22} className="text-luxury-gold" />;
+      case 'Compass': return <Compass size={22} className="text-luxury-gold" />;
+      case 'TrendingUp': return <TrendingUp size={22} className="text-luxury-gold" />;
+      case 'Coins': return <Coins size={22} className="text-luxury-gold" />;
+      case 'FileSearch': return <FileSearch size={22} className="text-luxury-gold" />;
+      default: return <Sparkles size={22} className="text-luxury-gold" />;
+    }
+  };
+
 
   return (
     <div className="min-h-screen">
@@ -296,6 +320,212 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
                   <span>Connect with Ujjwal Tiwari on WhatsApp</span>
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2.8 Specialized Real Estate Services Section (4 Featured + Expandable All 13) */}
+      <section id="services" className="py-20 bg-luxury-darkest text-white relative border-b border-luxury-border overflow-hidden">
+        {/* Ambient Gold & Emerald Shimmer Background */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-luxury-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-10 w-96 h-96 bg-luxury-deep/30 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-luxury-border/60 pb-8">
+            <div className="max-w-2xl space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/40">
+                <Sparkles size={13} />
+                <span>13 Specialized Real Estate Solutions</span>
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                Our Signature Services & Advisory
+              </h2>
+              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                From high-demand 4-lane commercial plots and luxury duplexes to scientific Comparative Market Analysis (CMA), Ambition Real Estate provides fiduciary guidance with zero hidden brokerage.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => setShowAllServices(!showAllServices)}
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95"
+              >
+                <span>{showAllServices ? 'Show 4 Featured' : `View All 13 Services (${remainingServices.length} More)`}</span>
+                {showAllServices ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+            </div>
+          </div>
+
+          {/* 1. Primary 4 Featured Services Grid */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
+                Featured Core Capabilities
+              </span>
+              <span className="text-[11px] text-gray-400">
+                Showing 4 of 13 Services
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {initialServices.map((service) => (
+                <div
+                  key={service.id}
+                  className="rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
+                >
+                  <div className="space-y-4">
+                    {/* Top Row: Icon and Badge */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="w-12 h-12 rounded-xl bg-luxury-surface border border-luxury-gold/40 flex items-center justify-center text-luxury-gold shadow-md group-hover:scale-110 transition-transform">
+                        {renderServiceIcon(service.icon)}
+                      </div>
+                      <span className="px-2.5 py-1 rounded-full bg-luxury-gold/15 text-luxury-gold text-[10px] font-bold uppercase tracking-wider border border-luxury-gold/30">
+                        {service.badge}
+                      </span>
+                    </div>
+
+                    {/* Title & Category */}
+                    <div>
+                      <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-1">
+                        {service.category}
+                      </span>
+                      <h3 className="font-serif text-lg font-bold text-white group-hover:text-luxury-gold transition-colors leading-snug">
+                        {service.title}
+                      </h3>
+                    </div>
+
+                    {/* Short Description */}
+                    <p className="text-xs text-gray-300 leading-relaxed">
+                      {service.shortDesc}
+                    </p>
+
+                    {/* Key Features Bullet List */}
+                    <ul className="space-y-2 pt-2 border-t border-luxury-border/50 text-[11px] text-gray-300">
+                      {service.items.slice(0, 3).map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <CheckCircle2 size={13} className="text-luxury-gold shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Card Action */}
+                  <div className="pt-6">
+                    <button
+                      onClick={() => onOpenBookingModal({ title: service.title })}
+                      className="w-full py-2.5 rounded-xl bg-luxury-surface/70 hover:bg-luxury-gold hover:text-luxury-darkest text-white border border-luxury-gold/40 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+                    >
+                      <span>Inquire / Consult</span>
+                      <ArrowRight size={13} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 2. Expandable Remaining 9 Services */}
+          {showAllServices && (
+            <div className="pt-6 border-t border-luxury-border/60 animate-fadeIn space-y-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
+                    Additional 9 Specialized Real Estate Services
+                  </span>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Explore our full advisory spectrum including development consulting, construction management, and buyer/seller agency.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {remainingServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="rounded-2xl bg-luxury-dark/80 border border-luxury-border/60 p-6 flex flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group"
+                  >
+                    <div className="space-y-4">
+                      {/* Top Row */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="w-11 h-11 rounded-xl bg-luxury-surface border border-luxury-gold/40 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform">
+                          {renderServiceIcon(service.icon)}
+                        </div>
+                        <span className="px-2.5 py-0.5 rounded-full bg-luxury-gold/15 text-luxury-gold text-[10px] font-semibold uppercase tracking-wider border border-luxury-gold/30">
+                          {service.badge}
+                        </span>
+                      </div>
+
+                      {/* Title & Category */}
+                      <div>
+                        <span className="text-[10px] text-gray-400 uppercase tracking-wider block mb-1">
+                          {service.category}
+                        </span>
+                        <h3 className="font-serif text-base font-bold text-white group-hover:text-luxury-gold transition-colors leading-snug">
+                          {service.title}
+                        </h3>
+                      </div>
+
+                      {/* Short Description */}
+                      <p className="text-xs text-gray-300 leading-relaxed">
+                        {service.shortDesc}
+                      </p>
+
+                      {/* Features */}
+                      <ul className="space-y-1.5 pt-2 border-t border-luxury-border/40 text-[11px] text-gray-300">
+                        {service.items.slice(0, 3).map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <CheckCircle2 size={12} className="text-luxury-gold shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-5">
+                      <button
+                        onClick={() => onOpenBookingModal({ title: service.title })}
+                        className="w-full py-2 rounded-xl bg-luxury-surface/50 hover:bg-luxury-gold hover:text-luxury-darkest text-gray-200 border border-luxury-border text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+                      >
+                        <span>Schedule Advisory</span>
+                        <ArrowRight size={13} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Bottom Action Strip */}
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 p-6 rounded-2xl bg-luxury-dark border border-luxury-border">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-luxury-surface flex items-center justify-center text-luxury-gold shrink-0">
+                <ShieldCheck size={20} />
+              </div>
+              <div>
+                <h4 className="font-serif font-bold text-sm text-white">Looking for Custom Advisory or Large-scale Land Aggregation?</h4>
+                <p className="text-xs text-gray-400">Speak directly with Senior Advisor Ujjwal Tiwari for tailored negotiations.</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => setShowAllServices(!showAllServices)}
+                className="px-5 py-2.5 rounded-xl bg-luxury-surface hover:bg-luxury-surface/80 text-luxury-gold border border-luxury-gold/40 text-xs font-bold uppercase tracking-wider transition-all"
+              >
+                {showAllServices ? 'Collapse Services' : 'Show All 13 Services'}
+              </button>
+
+              <Link
+                to="/services"
+                className="px-5 py-2.5 rounded-xl bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 flex items-center gap-1.5 shadow-md transition-all"
+              >
+                <span>Full Services Page</span>
+                <ArrowRight size={13} />
+              </Link>
             </div>
           </div>
         </div>

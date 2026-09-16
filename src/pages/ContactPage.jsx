@@ -1,36 +1,74 @@
 import React, { useState } from 'react';
 import { 
   Phone, Mail, MapPin, Clock, Star, Send, 
-  MessageCircle, CheckCircle2, ShieldCheck, HelpCircle, Navigation 
+  MessageCircle, CheckCircle2, ShieldCheck, HelpCircle, Navigation, 
+  Tag, Building, Calendar, DollarSign, Sparkles 
 } from 'lucide-react';
 import { businessInfo } from '../data/properties';
+import { saveInquiry, formatWhatsAppMessage } from '../utils/inquiryStorage';
 
 export default function ContactPage() {
+  const [inquiryType, setInquiryType] = useState('buyer'); // 'buyer' or 'seller'
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    interest: 'General Inquiry',
+    // Buyer fields
+    interest: 'Modern Duplex Houses (Opp. D-Mart)',
+    budget: '₹45 Lakh - ₹75 Lakh',
+    location: 'Indore Road Corridor (Opp. D-Mart)',
     visitDate: '',
-    message: ''
+    // Seller fields
+    propertyType: 'Residential Plot / Colony Land',
+    sellerLocation: '',
+    area: '',
+    expectedPrice: '',
+    legalStatus: 'Registry Ready & 100% Clear Title',
+    timeline: 'Flexible (1-3 Months)',
+    // Shared notes
+    notes: ''
   });
-  const [submitted, setSubmitted] = useState(false);
+
+  const [submittedId, setSubmittedId] = useState(null);
+  const [waUrl, setWaUrl] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
 
-    const text = `*New Contact Inquiry - Ambition Real Estate Website*
-• Name: ${formData.name}
-• Phone: ${formData.phone}
-• Email: ${formData.email || 'Not provided'}
-• Interested In: ${formData.interest}
-• Preferred Site Visit: ${formData.visitDate || 'Prompt scheduling'}
-• Message: ${formData.message || 'Please contact me.'}`;
+    const submissionPayload = {
+      type: inquiryType,
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      notes: formData.notes,
+      ...(inquiryType === 'buyer' ? {
+        interest: formData.interest,
+        budget: formData.budget,
+        location: formData.location,
+        visitDate: formData.visitDate
+      } : {
+        propertyType: formData.propertyType,
+        location: formData.sellerLocation,
+        area: formData.area,
+        expectedPrice: formData.expectedPrice,
+        legalStatus: formData.legalStatus,
+        timeline: formData.timeline
+      })
+    };
 
+    // Save to localStorage backend
+    const res = saveInquiry(submissionPayload);
+    const assignedId = res.inquiryId;
+    setSubmittedId(assignedId);
+
+    // Format WhatsApp message
+    const formattedWa = formatWhatsAppMessage(submissionPayload, assignedId);
+    const url = `https://wa.me/${businessInfo.rawPhone1}?text=${encodeURIComponent(formattedWa)}`;
+    setWaUrl(url);
+
+    // Auto open WhatsApp after brief feedback
     setTimeout(() => {
-      const waUrl = `https://wa.me/${businessInfo.rawPhone1}?text=${encodeURIComponent(text)}`;
-      window.open(waUrl, '_blank');
+      window.open(url, '_blank');
     }, 1200);
   };
 
@@ -48,8 +86,8 @@ export default function ContactPage() {
       a: "Our active inventory is centered along Indore Road (opposite D-Mart and near 6-lane Toll Plaza), Dewas Road (Shivansh Valley 4-lane colony), Triveni Vihar A-Sector, and Shree Nath Ji Colony."
     },
     {
-      q: "Do you offer free guided site visits?",
-      a: "Yes! Senior Advisor Ujjwal Tiwari personally conducts site visits with prospective buyers to inspect road frontage, dimensions, and surrounding infrastructure."
+      q: "Can I list my property with Ambition Real Estate as a seller?",
+      a: "Yes! Switch to the 'I Want to Sell / List' tab above. We verify legal titles, prepare marketing flyers, and present your property directly to our database of qualified investors."
     }
   ];
 
@@ -67,7 +105,7 @@ export default function ContactPage() {
               Connect With Ambition Real Estate
             </h1>
             <p className="text-xs sm:text-sm text-gray-300 mt-2 leading-relaxed">
-              Visit our office on Indore-Ujjain Road or contact Senior Advisor Ujjwal Tiwari directly for immediate site visits and pricing details.
+              Visit our office on Indore-Ujjain Road or submit your buyer or seller mandate directly to Senior Advisor Ujjwal Tiwari.
             </p>
           </div>
         </div>
@@ -98,21 +136,31 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Google Reviews Badge */}
-              <div className="p-3.5 rounded-xl bg-luxury-surface/50 border border-luxury-border flex items-center justify-between">
+              {/* Trust Metrics */}
+              <div className="grid grid-cols-2 gap-3 py-4 border-y border-luxury-border/60 text-xs">
                 <div className="flex items-center gap-2">
-                  <div className="flex text-amber-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={14} className="fill-amber-400" />
-                    ))}
+                  <div className="p-2 rounded-lg bg-luxury-surface text-luxury-gold">
+                    <Star size={16} className="fill-luxury-gold" />
                   </div>
-                  <span className="font-bold text-xs text-white">5.0 Rating</span>
+                  <div>
+                    <span className="font-bold text-white text-sm block leading-none">5.0 ★</span>
+                    <span className="text-[11px] text-gray-400">15 Google Reviews</span>
+                  </div>
                 </div>
-                <span className="text-[11px] text-gray-400">({businessInfo.reviewsCount} Google Reviews)</span>
+
+                <div className="flex items-center gap-2">
+                  <div className="p-2 rounded-lg bg-luxury-surface text-luxury-gold">
+                    <ShieldCheck size={16} />
+                  </div>
+                  <div>
+                    <span className="font-bold text-white text-sm block leading-none">10+ Years</span>
+                    <span className="text-[11px] text-gray-400">Ujjain Corridor Trust</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Contact Details List */}
-              <div className="space-y-4 text-xs pt-2">
+              {/* Direct Touchpoints */}
+              <div className="space-y-4 text-xs">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-lg bg-luxury-surface flex items-center justify-center text-luxury-gold shrink-0 mt-0.5">
                     <Phone size={15} />
@@ -167,32 +215,95 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right Col: Interactive Lead Inquiry Form */}
+          {/* Right Col: Interactive Lead Inquiry Form with Dual Buyer / Seller Modes */}
           <div className="lg:col-span-7">
-            <div className="rounded-3xl bg-white p-8 border border-luxury-border shadow-luxury space-y-6">
+            <div className="rounded-3xl bg-white p-6 sm:p-8 border border-luxury-border shadow-luxury space-y-6">
+              {/* Form Title */}
               <div>
                 <span className="text-xs uppercase tracking-widest text-luxury-gold-dark font-serif font-semibold block mb-1">
-                  Online Registration
+                  Online Registration Portal
                 </span>
                 <h3 className="font-serif text-2xl font-bold text-luxury-ink">
-                  Schedule a Consultation or Free Site Visit
+                  {inquiryType === 'buyer' ? 'Schedule a Consultation or Site Visit' : 'List Your Property for Sale with Us'}
                 </h3>
                 <p className="text-xs text-gray-500 mt-1">
-                  Fill out the form below. Our advisory desk will get back to you promptly with available unit layouts and verified title abstracts.
+                  {inquiryType === 'buyer'
+                    ? 'Connect with Senior Advisor Ujjwal Tiwari to inspect verified duplex homes and 4-lane commercial plots.'
+                    : 'Submit your plot, house, or commercial asset to connect with serious, verified buyers across Ujjain.'}
                 </p>
               </div>
 
-              {submitted ? (
-                <div className="text-center py-12 space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
+              {/* Dual Mode Selector (Buyer vs Seller) */}
+              {!submittedId && (
+                <div className="p-1 bg-luxury-cream rounded-xl border border-luxury-border/60 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setInquiryType('buyer')}
+                    className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                      inquiryType === 'buyer'
+                        ? 'bg-luxury-dark text-luxury-gold shadow-md'
+                        : 'text-gray-600 hover:text-luxury-ink hover:bg-white/60'
+                    }`}
+                  >
+                    <Tag size={15} />
+                    <span>I Want to Buy / Invest</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setInquiryType('seller')}
+                    className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
+                      inquiryType === 'seller'
+                        ? 'bg-luxury-dark text-luxury-gold shadow-md'
+                        : 'text-gray-600 hover:text-luxury-ink hover:bg-white/60'
+                    }`}
+                  >
+                    <Building size={15} />
+                    <span>I Want to Sell / List</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Submitted Confirmation State */}
+              {submittedId ? (
+                <div className="text-center py-8 space-y-4 animate-fadeIn">
+                  <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center shadow-md animate-pulseGlow">
                     <CheckCircle2 size={36} />
                   </div>
-                  <h4 className="font-serif text-2xl font-bold text-luxury-ink">Inquiry Submitted!</h4>
-                  <p className="text-xs text-gray-600 max-w-sm mx-auto leading-relaxed">
-                    Thank you, <strong className="text-luxury-darkest">{formData.name}</strong>. We are redirecting your query to WhatsApp for instant confirmation with Advisor Ujjwal Tiwari.
-                  </p>
+
+                  <div>
+                    <span className="inline-block px-3 py-1 rounded-full bg-luxury-gold/15 text-luxury-gold-dark text-xs font-mono font-bold tracking-widest border border-luxury-gold/40 mb-2">
+                      REF ID: {submittedId}
+                    </span>
+                    <h4 className="font-serif text-2xl font-bold text-luxury-ink">
+                      {inquiryType === 'buyer' ? 'Site Visit Request Registered!' : 'Property Listing Registered!'}
+                    </h4>
+                    <p className="text-xs text-gray-600 max-w-md mx-auto mt-2 leading-relaxed">
+                      Thank you, <strong className="text-luxury-darkest">{formData.name}</strong>. Your inquiry has been stored and forwarded to WhatsApp for instant confirmation with Senior Advisor Ujjwal Tiwari.
+                    </p>
+                  </div>
+
+                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a
+                      href={waUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all"
+                    >
+                      <MessageCircle size={16} />
+                      <span>Open WhatsApp Chat</span>
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setSubmittedId(null)}
+                      className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs uppercase tracking-wider transition-all"
+                    >
+                      Submit Another Query
+                    </button>
+                  </div>
                 </div>
               ) : (
+                /* Interactive Form Fields */
                 <form onSubmit={handleSubmit} className="space-y-4 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -203,85 +314,221 @@ export default function ContactPage() {
                         placeholder="e.g. Ramesh Verma"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-gray-700 font-semibold mb-1.5">Phone Number *</label>
+                      <label className="block text-gray-700 font-semibold mb-1.5">WhatsApp Mobile Number *</label>
                       <input
                         type="tel"
                         required
                         placeholder="e.g. 98765 43210"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-gray-700 font-semibold mb-1.5">Email (Optional)</label>
-                      <input
-                        type="email"
-                        placeholder="e.g. ramesh@gmail.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-gray-700 font-semibold mb-1.5">Preferred Visit Date</label>
-                      <input
-                        type="date"
-                        value={formData.visitDate}
-                        onChange={(e) => setFormData({ ...formData, visitDate: e.target.value })}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-1.5">Property or Corridor of Interest</label>
-                    <select
-                      value={formData.interest}
-                      onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
-                    >
-                      <option value="D-Mart Duplex House">Modern Duplex Houses (Opp. D-Mart, Indore Rd)</option>
-                      <option value="D-Mart Commercial Plot">4-Lane Commercial Plots (In front of D-Mart)</option>
-                      <option value="15000 SF Highway Plot">15,000 Sq.Ft Mega Highway Plot (6-Lane Toll Plaza)</option>
-                      <option value="Shivansh Valley Corner Plot">Shivansh Valley 3100 SF Corner Plot (Dewas Rd)</option>
-                      <option value="Triveni Vihar Commercial">Triveni Vihar A-Sector Commercial Plot</option>
-                      <option value="Shree Nath Ji Colony">Shree Nath Ji Colony Residential Plots</option>
-                      <option value="Tapobhoomi 25 Bigha">25 Bigha Township Development Land</option>
-                      <option value="Nagda 77.6 Bigha Farm">77.6 Bigha Farmhouse / Agro Asset (Nagda)</option>
-                      <option value="Custom Buyer Requirement">Custom Buyer Mandate (Tell us requirements)</option>
-                    </select>
+                    <label className="block text-gray-700 font-semibold mb-1.5">Email Address (Optional)</label>
+                    <input
+                      type="email"
+                      placeholder="e.g. ramesh@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                    />
                   </div>
 
+                  {/* BUYER MODE FIELDS */}
+                  {inquiryType === 'buyer' && (
+                    <div className="space-y-4 pt-2 border-t border-gray-200 animate-fadeIn">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Property of Interest *</label>
+                          <select
+                            value={formData.interest}
+                            onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="Modern Duplex Houses (Opp. D-Mart)">Modern Duplex Houses (Opp. D-Mart, Indore Rd)</option>
+                            <option value="4-Lane Highway Commercial Plots">4-Lane Commercial Plots (In front of D-Mart)</option>
+                            <option value="15,000 Sq.Ft Mega Highway Plot">15,000 Sq.Ft Mega Highway Plot (6-Lane Toll Plaza)</option>
+                            <option value="Shivansh Valley Corner Plot">Shivansh Valley 3,100 SF Corner Plot (Dewas Rd)</option>
+                            <option value="Triveni Vihar Commercial Plot">Triveni Vihar A-Sector Commercial Plot</option>
+                            <option value="Shree Nath Ji Colony Plots">Shree Nath Ji Colony Residential Plots</option>
+                            <option value="Tapobhoomi 25 Bigha Township">25 Bigha Township Development Land</option>
+                            <option value="Nagda 77.6 Bigha Farm Estate">77.6 Bigha Farmhouse / Agro Asset</option>
+                            <option value="General Property Advisory">General Property Advisory Mandate</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Budget Bracket</label>
+                          <select
+                            value={formData.budget}
+                            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="₹25 Lakh - ₹45 Lakh">₹25 Lakh - ₹45 Lakh</option>
+                            <option value="₹45 Lakh - ₹75 Lakh">₹45 Lakh - ₹75 Lakh (Duplex Category)</option>
+                            <option value="₹75 Lakh - ₹1.5 Crore">₹75 Lakh - ₹1.5 Crore</option>
+                            <option value="₹1.5 Crore - ₹3 Crore+">₹1.5 Crore - ₹3 Crore+ (Commercial / Farm)</option>
+                            <option value="Flexible / Negotiable">Flexible / Open</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Preferred Corridor</label>
+                          <select
+                            value={formData.location}
+                            onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="Indore Road Corridor (Opp. D-Mart)">Indore Road Corridor (Opp. D-Mart)</option>
+                            <option value="Indore Road Toll Plaza Node">Indore Road Toll Plaza Node</option>
+                            <option value="Dewas Road (Shivansh Valley)">Dewas Road (Shivansh Valley)</option>
+                            <option value="Triveni Vihar Commercial Sector">Triveni Vihar Commercial Sector</option>
+                            <option value="Sanwer Road / Outer Ring Bypass">Sanwer Road / Outer Ring Bypass</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5 flex items-center gap-1">
+                            <Calendar size={13} className="text-luxury-gold-dark" />
+                            <span>Preferred Visit Date</span>
+                          </label>
+                          <input
+                            type="date"
+                            value={formData.visitDate}
+                            onChange={(e) => setFormData({ ...formData, visitDate: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SELLER MODE FIELDS */}
+                  {inquiryType === 'seller' && (
+                    <div className="space-y-4 pt-2 border-t border-gray-200 animate-fadeIn">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Property Type to Sell *</label>
+                          <select
+                            value={formData.propertyType}
+                            onChange={(e) => setFormData({ ...formData, propertyType: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="Residential Plot / Colony Land">Residential Plot / Colony Land</option>
+                            <option value="Duplex / Independent House">Duplex / Independent House</option>
+                            <option value="Highway Commercial Plot / Land">Highway Commercial Plot / Land</option>
+                            <option value="Agricultural Farmhouse / Orchard">Agricultural Farmhouse / Orchard</option>
+                            <option value="Commercial Shop / Building">Commercial Shop / Building</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Location / Colony in Ujjain *</label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Mahaveer Bagh, Indore Road"
+                            value={formData.sellerLocation}
+                            onChange={(e) => setFormData({ ...formData, sellerLocation: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Plot / Built-up Area</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. 1,000 sq.ft or 20x50 or 5 Bigha"
+                            value={formData.area}
+                            onChange={(e) => setFormData({ ...formData, area: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Expected Asking Price</label>
+                          <input
+                            type="text"
+                            placeholder="e.g. ₹60 Lakh or ₹4,500/sq.ft"
+                            value={formData.expectedPrice}
+                            onChange={(e) => setFormData({ ...formData, expectedPrice: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Title & Legal Status</label>
+                          <select
+                            value={formData.legalStatus}
+                            onChange={(e) => setFormData({ ...formData, legalStatus: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="Registry Ready & 100% Clear Title">Registry Ready & 100% Clear Title</option>
+                            <option value="RERA / TNCP Approved Colony">RERA / TNCP Approved Colony</option>
+                            <option value="Diversion Done (Non-Agri)">Diversion Done (Non-Agri)</option>
+                            <option value="Ancestral Property / In Scrutiny">Ancestral Property / In Scrutiny</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-gray-700 font-semibold mb-1.5">Sale Timeline Urgency</label>
+                          <select
+                            value={formData.timeline}
+                            onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
+                            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                          >
+                            <option value="Flexible (1-3 Months)">Flexible (1-3 Months)</option>
+                            <option value="Immediate / Urgent (30 Days)">Immediate / Urgent (30 Days)</option>
+                            <option value="Seeking Market Evaluation Only">Seeking Market Evaluation Only</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Notes / Special requirements */}
                   <div>
-                    <label className="block text-gray-700 font-semibold mb-1.5">Message / Specific Questions</label>
+                    <label className="block text-gray-700 font-semibold mb-1.5">
+                      {inquiryType === 'buyer' ? 'Specific Requirements / Dimensions' : 'Additional Property Highlights'}
+                    </label>
                     <textarea
                       rows={3}
-                      placeholder="Share any questions regarding plot size, 25% booking, or registry schedule..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
+                      placeholder={inquiryType === 'buyer' ? 'Share any questions regarding plot size, 25% booking, or registry schedule...' : 'Corner plot, road width, nearby landmarks, or special features...'}
+                      value={formData.notes}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                      className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep transition-all"
                     ></textarea>
                   </div>
 
                   <div className="pt-2">
                     <button
                       type="submit"
-                      className="w-full py-3.5 rounded-xl bg-luxury-dark hover:bg-luxury-deep text-luxury-gold font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all"
+                      className="w-full py-3.5 rounded-xl bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark hover:brightness-110 text-luxury-gold font-bold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all group"
                     >
-                      <Send size={15} />
-                      <span>Submit Request & Open WhatsApp</span>
+                      <Send size={15} className="group-hover:translate-x-1 transition-transform" />
+                      <span>
+                        {inquiryType === 'buyer' ? 'Submit Inquiry & Connect via WhatsApp' : 'Submit Property for Verification'}
+                      </span>
                     </button>
                   </div>
+
+                  <p className="text-[11px] text-gray-400 text-center">
+                    All inquiries are directly reviewed by Senior Advisor Ujjwal Tiwari. Zero spam policy.
+                  </p>
                 </form>
               )}
             </div>
@@ -314,7 +561,7 @@ export default function ContactPage() {
             </a>
           </div>
 
-          {/* Interactive Map Embed Placeholder / Directions Box */}
+          {/* Interactive Map Embed */}
           <div className="rounded-2xl overflow-hidden border border-luxury-border/60 bg-luxury-cream h-72 sm:h-96 relative flex items-center justify-center">
             <iframe
               title="Ambition Real Estate Location Map"
