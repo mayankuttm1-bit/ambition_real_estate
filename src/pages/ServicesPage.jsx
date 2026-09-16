@@ -43,9 +43,9 @@ export default function ServicesPage({ onOpenBookingModal }) {
   };
 
   return (
-    <div className="min-h-screen bg-luxury-paper pb-20">
+    <div className="min-h-screen bg-luxury-paper pb-20 w-full max-w-full overflow-x-hidden">
       {/* Header Banner with Stock Architecture Background */}
-      <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden">
+      <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden w-full max-w-full">
         <div className="absolute inset-0 z-0">
           <img
             src={getAssetUrl('/images/commercial-hub.jpg')}
@@ -55,7 +55,7 @@ export default function ServicesPage({ onOpenBookingModal }) {
           <div className="absolute inset-0 bg-gradient-to-r from-luxury-darkest via-luxury-darkest/85 to-transparent"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full reveal-on-scroll">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30 mb-3">
               <ShieldCheck size={13} />
@@ -72,13 +72,13 @@ export default function ServicesPage({ onOpenBookingModal }) {
       </section>
 
       {/* Category Filter Navigation Bar */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-7 relative z-20">
-        <div className="bg-white p-2.5 rounded-2xl shadow-luxury border border-luxury-border flex flex-wrap items-center gap-2">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-7 relative z-20 w-full max-w-full">
+        <div className="bg-white p-2.5 rounded-2xl shadow-luxury border border-luxury-border flex flex-wrap items-center gap-2 max-w-full overflow-x-auto">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
                 activeCategory === cat
                   ? 'bg-luxury-dark text-luxury-gold shadow-md'
                   : 'text-gray-600 hover:text-luxury-ink hover:bg-gray-100'
@@ -92,12 +92,12 @@ export default function ServicesPage({ onOpenBookingModal }) {
       </section>
 
       {/* 13 Services Cards Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full max-w-full overflow-hidden reveal-on-scroll">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredServices.map((service) => (
             <div
               key={service.id}
-              className="rounded-3xl bg-white p-7 border border-luxury-border/80 shadow-luxury hover:shadow-luxury-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group"
+              className="rounded-3xl bg-white p-6 sm:p-7 border border-luxury-border/80 shadow-luxury hover:shadow-luxury-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group luxury-card-interactive"
             >
               <div className="space-y-4">
                 {/* Header: Icon & Badge */}

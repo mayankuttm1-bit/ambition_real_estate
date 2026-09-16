@@ -27,6 +27,7 @@ export default function App() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [bookingPropertyContext, setBookingPropertyContext] = useState(null);
+  const location = useLocation();
 
   const handleOpenBooking = (property = null) => {
     setBookingPropertyContext(property);
@@ -38,15 +39,44 @@ export default function App() {
     setBookingPropertyContext(null);
   };
 
+  // Universal Intersection Observer for smooth scroll-reveal animations across all pages
+  useEffect(() => {
+    const observerCallback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.1,
+    });
+
+    // Small timeout to allow DOM nodes of the newly mounted route to settle
+    const timer = setTimeout(() => {
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      revealElements.forEach((el) => observer.observe(el));
+    }, 80);
+
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [location.pathname]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-luxury-paper text-luxury-ink">
+    <div className="min-h-screen flex flex-col bg-luxury-paper text-luxury-ink w-full max-w-full overflow-x-hidden relative">
       <ScrollToTop />
       
       {/* Navbar */}
       <Navbar onOpenBookingModal={() => handleOpenBooking()} />
 
-      {/* Primary View */}
-      <main className="flex-1">
+      {/* Primary View with smooth fade-in page transition */}
+      <main key={location.pathname} className="flex-1 w-full max-w-full overflow-x-hidden page-transition-wrapper">
         <Routes>
           <Route 
             path="/" 

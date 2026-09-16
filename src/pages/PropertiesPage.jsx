@@ -45,10 +45,10 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
   }, [searchTerm, selectedCategory, selectedLocation, onlyTwentyFivePercent]);
 
   return (
-    <div className="min-h-screen bg-luxury-paper pb-20">
+    <div className="min-h-screen bg-luxury-paper pb-20 w-full max-w-full overflow-x-hidden">
       {/* Header Banner */}
-      <section className="bg-luxury-darkest text-white py-14 border-b border-luxury-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-luxury-darkest text-white py-14 border-b border-luxury-border w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30 mb-3">
               <Sparkles size={12} />
@@ -65,11 +65,11 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
       </section>
 
       {/* Filter & Search Bar */}
-      <section className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="sticky top-20 z-30 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-4 w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
             {/* Search Input */}
-            <div className="relative flex-1">
+            <div className="relative flex-1 w-full max-w-full">
               <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
@@ -81,12 +81,12 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
             </div>
 
             {/* Select Dropdowns */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
               {/* Category Select */}
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep"
+                className="flex-1 sm:flex-initial max-w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep"
               >
                 {categories.map((c) => (
                   <option key={c.value} value={c.value}>
@@ -99,7 +99,7 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
               <select
                 value={selectedLocation}
                 onChange={(e) => setSelectedLocation(e.target.value)}
-                className="px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep"
+                className="flex-1 sm:flex-initial max-w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs bg-gray-50 focus:bg-white focus:outline-none focus:border-luxury-deep"
               >
                 {locations.map((loc) => (
                   <option key={loc.value} value={loc.value}>
@@ -111,7 +111,7 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
               {/* 25% Booking Toggle */}
               <button
                 onClick={() => setOnlyTwentyFivePercent(!onlyTwentyFivePercent)}
-                className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 ${
+                className={`px-3.5 py-2.5 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
                   onlyTwentyFivePercent
                     ? 'bg-luxury-deep text-luxury-gold border-luxury-deep shadow'
                     : 'bg-gray-50 text-gray-700 border-gray-200 hover:border-gray-300'
@@ -126,7 +126,7 @@ export default function PropertiesPage({ onSelectProperty, onOpenBookingModal })
       </section>
 
       {/* Main Listing Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 w-full max-w-full overflow-hidden reveal-on-scroll">
         <div className="flex items-center justify-between mb-6">
           <p className="text-xs font-semibold text-gray-500">
             Showing <strong className="text-luxury-darkest">{filteredProperties.length}</strong> verified properties

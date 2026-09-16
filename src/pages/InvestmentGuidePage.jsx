@@ -39,9 +39,9 @@ export default function InvestmentGuidePage({ onOpenBookingModal }) {
   ];
 
   return (
-    <div className="min-h-screen bg-luxury-paper pb-20">
+    <div className="min-h-screen bg-luxury-paper pb-20 w-full max-w-full overflow-x-hidden">
       {/* Header Banner with Stock Land Background */}
-      <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden">
+      <section className="relative bg-luxury-darkest text-white py-20 border-b border-luxury-border overflow-hidden w-full max-w-full">
         <div className="absolute inset-0 z-0">
           <img
             src={getAssetUrl('/images/land-development.jpg')}
@@ -51,7 +51,7 @@ export default function InvestmentGuidePage({ onOpenBookingModal }) {
           <div className="absolute inset-0 bg-gradient-to-r from-luxury-darkest via-luxury-darkest/85 to-transparent"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full reveal-on-scroll">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30 mb-3">
               <Compass size={13} />
@@ -68,9 +68,9 @@ export default function InvestmentGuidePage({ onOpenBookingModal }) {
       </section>
 
       {/* Main Analysis Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 w-full max-w-full overflow-hidden reveal-on-scroll">
         {/* The 4 Mega Growth Drivers */}
-        <div className="p-8 rounded-3xl bg-white border border-luxury-border shadow-luxury space-y-6">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border border-luxury-border shadow-luxury space-y-6 w-full max-w-full overflow-hidden">
           <div className="max-w-2xl">
             <span className="text-xs uppercase tracking-widest text-luxury-gold-dark font-serif font-semibold block mb-1">
               Catalysts for Appreciation

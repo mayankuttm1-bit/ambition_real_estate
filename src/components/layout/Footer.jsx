@@ -5,9 +5,9 @@ import { businessInfo } from '../../data/properties';
 
 export default function Footer() {
   return (
-    <footer className="bg-luxury-darkest text-gray-300 border-t border-luxury-border">
+    <footer className="bg-luxury-darkest text-gray-300 border-t border-luxury-border w-full max-w-full overflow-hidden">
       {/* Top Value Banner */}
-      <div className="bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark border-b border-luxury-border py-8">
+      <div className="bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark border-b border-luxury-border py-8 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 text-center md:text-left">
             <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -166,7 +166,7 @@ export default function Footer() {
                   href="https://maps.google.com/?q=194+Mahaveer+Bagh+Colony+Indore+Ujjain+Rd+Pawapuri+Colony+Ujjain"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-luxury-gold transition-colors leading-relaxed"
+                  className="hover:text-luxury-gold transition-colors leading-relaxed break-words"
                 >
                   {businessInfo.address}
                 </a>

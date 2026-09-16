@@ -57,9 +57,9 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden">
       {/* 1. Luxury Hero Section with Stock Estate Background */}
-      <section className="relative bg-luxury-darkest text-white overflow-hidden pt-16 pb-28 border-b border-luxury-border">
+      <section className="relative bg-luxury-darkest text-white overflow-hidden pt-16 pb-28 border-b border-luxury-border w-full max-w-full">
         {/* Background Stock Image with Luxury Emerald Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -74,8 +74,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-luxury-gold/10 blur-3xl pointer-events-none"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="max-w-3xl mx-auto text-center space-y-6 reveal-on-scroll">
             {/* Top Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-luxury-surface/80 border border-luxury-gold/40 text-xs text-luxury-gold shadow-lg">
               <Sparkles size={13} className="animate-pulse text-amber-400" />
@@ -119,7 +119,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
             <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
               <Link
                 to="/properties"
-                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-luxury-gold-light via-luxury-gold to-luxury-gold-dark text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-xl shadow-amber-900/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+                className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-luxury-gold-light via-luxury-gold to-luxury-gold-dark text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-xl shadow-amber-900/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 luxury-btn-shimmer"
               >
                 <span>Browse All Properties</span>
                 <ArrowRight size={15} />
@@ -137,7 +137,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 2. Value Propositions Bar */}
-      <section className="bg-white py-10 border-b border-gray-200">
+      <section className="bg-white py-10 border-b border-gray-200 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="flex items-start gap-4">
@@ -346,12 +346,12 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 2.8 Specialized Real Estate Services Section (4 Featured + Expandable All 13) */}
-      <section id="services" className="py-20 bg-luxury-darkest text-white relative border-b border-luxury-border overflow-hidden">
+      <section id="services" className="py-20 bg-luxury-darkest text-white relative border-b border-luxury-border overflow-hidden w-full max-w-full">
         {/* Ambient Gold & Emerald Shimmer Background */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-luxury-gold/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-10 w-96 h-96 bg-luxury-deep/30 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 w-full overflow-hidden reveal-on-scroll">
           {/* Section Header (Clean Title Only) */}
           <div className="max-w-2xl border-b border-luxury-border/60 pb-6">
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
@@ -360,7 +360,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
           </div>
 
           {/* 1. Services Container (Swipeable on Mobile, 4-Col Grid on Desktop) */}
-          <div>
+          <div className="w-full overflow-hidden">
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs uppercase tracking-widest text-luxury-gold font-serif font-semibold">
                 Featured Core Capabilities
@@ -393,12 +393,12 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
             {/* Mobile Scrollable Container (All 13 swipeable on mobile, top 4 grid on desktop) */}
             <div
               ref={servicesScrollRef}
-              className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 scrollbar-none"
+              className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 scrollbar-none w-auto max-w-full"
             >
               {servicesData.map((service, idx) => (
                 <div
                   key={service.id}
-                  className={`${idx >= 4 ? 'flex md:hidden' : 'flex'} w-[86vw] sm:w-[320px] shrink-0 snap-center md:w-auto md:shrink rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group`}
+                  className={`${idx >= 4 ? 'flex md:hidden' : 'flex'} w-[82vw] max-w-[320px] sm:w-[320px] shrink-0 snap-center md:w-auto md:shrink rounded-2xl bg-luxury-dark/95 border border-luxury-border/70 p-6 flex-col justify-between hover:border-luxury-gold hover:-translate-y-1.5 transition-all duration-300 shadow-xl group`}
                 >
                   <div className="space-y-4">
                     {/* Top Row: Icon and Badge */}
@@ -461,7 +461,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
           <div className="pt-2 text-center flex items-center justify-center">
             <Link
               to="/services"
-              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95"
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-luxury-gold via-amber-500 to-luxury-gold-dark hover:brightness-110 text-luxury-darkest text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all hover:scale-105 active:scale-95 luxury-btn-shimmer"
             >
               <span>View Full Services Page</span>
               <ArrowRight size={14} />
@@ -472,8 +472,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
 
       {/* 3. Featured Properties Showcase (All Properties Scrollable) */}
-      <section className="py-16 bg-luxury-paper">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-luxury-paper overflow-hidden w-full max-w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full overflow-hidden reveal-on-scroll">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
             <div>
               <span className="text-xs font-semibold uppercase tracking-widest text-luxury-gold-dark font-serif block mb-1">
@@ -520,12 +520,12 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
           {/* All Properties (Scrollable 1-Card view on Mobile, 3-Col Grid on Desktop) */}
           <div
             ref={propertiesScrollRef}
-            className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 scrollbar-none"
+            className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-6 pt-1 -mx-4 px-4 sm:-mx-6 sm:px-6 md:mx-0 md:px-0 md:pb-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 scrollbar-none w-auto max-w-full"
           >
             {propertiesData.map((property) => (
               <div
                 key={property.id}
-                className="w-[88vw] sm:w-[350px] shrink-0 snap-center md:w-auto md:shrink flex flex-col"
+                className="w-[84vw] max-w-[340px] sm:w-[350px] shrink-0 snap-center md:w-auto md:shrink flex flex-col"
               >
                 <PropertyCard
                   property={property}
@@ -555,8 +555,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 4. Strategic Investment Spotlight (Ujjain-Indore Corridor) */}
-      <section className="py-16 bg-luxury-darkest text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-luxury-darkest text-white relative overflow-hidden w-full max-w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30">
@@ -591,7 +591,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               <div className="pt-2 flex flex-wrap gap-4">
                 <Link
                   to="/investment-guide"
-                  className="px-6 py-3 rounded-lg bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg"
+                  className="px-6 py-3 rounded-lg bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg luxury-btn-shimmer"
                 >
                   Read Comprehensive Growth Guide
                 </Link>
@@ -622,15 +622,15 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 5. Interactive EMI & Financial Calculator */}
-      <section className="py-16 bg-luxury-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-luxury-cream w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <EmiCalculator onOpenBookingModal={onOpenBookingModal} />
         </div>
       </section>
 
       {/* 6. Five Steps to Property Ownership */}
-      <section className="py-16 bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-white border-t border-gray-200 w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-semibold uppercase tracking-widest text-luxury-gold-dark font-serif block mb-1">
               Transparent Advisory Workflow
@@ -671,7 +671,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
                 desc: 'Hassle-free execution at the sub-registrar office, bank loan disbursement, and immediate possession.'
               }
             ].map((item, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-luxury-paper border border-luxury-border/60 relative">
+              <div key={idx} className="p-6 rounded-2xl bg-luxury-paper border border-luxury-border/60 relative luxury-card-interactive">
                 <span className="font-serif text-3xl font-bold text-luxury-gold/50 block mb-3">
                   {item.step}
                 </span>
@@ -688,8 +688,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 7. Client Reviews / Google 5.0 Star Ratings */}
-      <section className="py-16 bg-luxury-darkest text-white border-t border-luxury-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-luxury-darkest text-white border-t border-luxury-border w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="flex items-center justify-center gap-1 text-amber-400 mb-2">
               {[...Array(5)].map((_, i) => (
@@ -706,7 +706,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((t, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-luxury-dark border border-luxury-border flex flex-col justify-between space-y-4">
+              <div key={idx} className="p-6 rounded-2xl bg-luxury-dark border border-luxury-border flex flex-col justify-between space-y-4 luxury-card-interactive">
                 <div className="space-y-3">
                   <div className="flex text-amber-400">
                     {[...Array(t.rating)].map((_, i) => (
@@ -729,8 +729,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 7.5 Registered Office & Google Maps Location Section */}
-      <section id="office-location" className="py-20 bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <section id="office-location" className="py-20 bg-white border-t border-gray-200 w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 w-full reveal-on-scroll">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold-dark text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30 mb-2 font-serif">
@@ -764,7 +764,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               <div className="space-y-5">
                 <div>
                   <span className="text-[10px] uppercase font-bold tracking-widest text-luxury-gold-dark block mb-1">Office Address</span>
-                  <p className="font-serif font-bold text-base text-luxury-ink leading-relaxed">
+                  <p className="font-serif font-bold text-base text-luxury-ink leading-relaxed break-words">
                     194, Mahaveer Bagh Colony, Indore - Ujjain Rd, Pawapuri Colony, Ujjain, MP 456010
                   </p>
                 </div>
@@ -803,7 +803,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               <div className="pt-4">
                 <button
                   onClick={() => onOpenBookingModal()}
-                  className="w-full py-3 rounded-xl bg-luxury-dark hover:bg-luxury-deep text-luxury-gold text-xs font-bold uppercase tracking-wider shadow-md transition-all text-center"
+                  className="w-full py-3 rounded-xl bg-luxury-dark hover:bg-luxury-deep text-luxury-gold text-xs font-bold uppercase tracking-wider shadow-md transition-all text-center luxury-btn-shimmer"
                 >
                   Schedule Office Meeting
                 </button>
@@ -824,8 +824,8 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
       </section>
 
       {/* 8. Call to Action Banner */}
-      <section className="py-14 bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark text-white border-t border-luxury-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+      <section className="py-14 bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark text-white border-t border-luxury-border w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 w-full reveal-on-scroll">
           <h2 className="font-serif text-3xl sm:text-4xl font-bold max-w-2xl mx-auto">
             Looking for a Verified Plot, House, or Commercial Land in Ujjain?
           </h2>
@@ -836,7 +836,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <a
               href={`tel:${businessInfo.rawPhone1}`}
-              className="px-6 py-3 rounded-lg bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-luxury-gold text-luxury-darkest text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg flex items-center gap-2 luxury-btn-shimmer"
             >
               <Phone size={15} />
               <span>Call: {businessInfo.phone1}</span>
@@ -846,7 +846,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
               href={`https://wa.me/${businessInfo.rawPhone1}?text=${encodeURIComponent("Hello Ambition Real Estate, I would like to schedule a site visit this week.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-2 transition-all hover:scale-105"
             >
               <MessageCircle size={15} />
               <span>Message on WhatsApp</span>
@@ -854,7 +854,7 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
             <button
               onClick={() => onOpenBookingModal()}
-              className="px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20"
+              className="px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-semibold border border-white/20 transition-all hover:scale-105"
             >
               Request Free Callback
             </button>

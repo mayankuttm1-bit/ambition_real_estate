@@ -92,10 +92,10 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-luxury-paper pb-20">
+    <div className="min-h-screen bg-luxury-paper pb-20 w-full max-w-full overflow-x-hidden">
       {/* Header Banner */}
-      <section className="bg-luxury-darkest text-white py-16 border-b border-luxury-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-luxury-darkest text-white py-16 border-b border-luxury-border w-full max-w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full reveal-on-scroll">
           <div className="max-w-3xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-luxury-gold/20 text-luxury-gold text-xs font-semibold uppercase tracking-wider border border-luxury-gold/30 mb-3">
               <MapPin size={13} />
@@ -112,7 +112,7 @@ export default function ContactPage() {
       </section>
 
       {/* Main Content Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 space-y-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 space-y-12 w-full max-w-full overflow-hidden reveal-on-scroll">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left Col: Contact Information & Advisor Profile */}
           <div className="lg:col-span-5 space-y-6">

@@ -9,10 +9,37 @@
     --emerald-dark: #08251c;
   }
 
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     background-color: #fdfcf9;
     color: #111827;
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: relative;
   }
 
   h1, h2, h3, .font-serif {
@@ -53,28 +80,101 @@
 
   /* Smooth luxury card interactive hover */
   .luxury-card-interactive {
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
                 border-color 0.35s ease;
+    will-change: transform, box-shadow;
   }
 
   .luxury-card-interactive:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 35px -10px rgba(8, 37, 28, 0.3), 0 0 20px rgba(197, 160, 89, 0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 35px -10px rgba(8, 37, 28, 0.25), 0 0 25px rgba(197, 160, 89, 0.2);
   }
 }
 
-/* Global Smooth scrolling & selection */
-html {
-  scroll-behavior: smooth;
+/* ==========================================================================
+   Smooth Scroll Reveal & Page Transitions
+   ========================================================================== */
+
+/* Universal Scroll-triggered Reveal Animations */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered transition delays for lists & grids */
+.stagger-1 { transition-delay: 60ms; }
+.stagger-2 { transition-delay: 130ms; }
+.stagger-3 { transition-delay: 200ms; }
+.stagger-4 { transition-delay: 270ms; }
+.stagger-5 { transition-delay: 340ms; }
+.stagger-6 { transition-delay: 410ms; }
+
+/* Page Route Transition */
+.page-transition-wrapper {
+  animation: smoothPageFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes smoothPageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gentle Luxury Shimmer Glow for Call-to-Actions */
+.luxury-btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 40%;
+  height: 200%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.35), 
+    transparent
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: buttonShimmerWave 4.5s ease-in-out infinite;
+}
+
+@keyframes buttonShimmerWave {
+  0%, 75% {
+    left: -60%;
+  }
+  100% {
+    left: 140%;
+  }
 }
 
 /* Custom smooth scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1ede4;
+  background: #f4f0e6;
 }
 ::-webkit-scrollbar-thumb {
   background: #c5a059;
