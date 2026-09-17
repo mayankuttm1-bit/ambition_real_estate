@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Phone, Clock, MapPin, Star, Menu, X, MessageCircle, ArrowRight } from 'lucide-react';
 import { businessInfo } from '../../data/properties';
+import { getAssetUrl } from '../../utils/asset';
 
 export default function Navbar({ onOpenBookingModal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,14 +28,13 @@ export default function Navbar({ onOpenBookingModal }) {
       <nav className="bg-luxury-dark text-white border-b border-luxury-border w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 w-full">
           <div className="flex items-center justify-between h-20 gap-2">
-            {/* Brand Logo */}
+            {/* Brand Logo with New Official Insignia */}
             <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0 max-w-[70%] sm:max-w-none">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-luxury-gold via-amber-600 to-luxury-gold-dark p-0.5 shadow-lg group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
-                <div className="w-full h-full bg-luxury-darkest rounded-[7px] flex flex-col items-center justify-center">
-                  <span className="font-serif text-lg sm:text-xl font-bold text-luxury-gold tracking-widest leading-none">A</span>
-                  <div className="h-0.5 w-3 sm:w-4 bg-luxury-gold mt-0.5"></div>
-                </div>
-              </div>
+              <img
+                src={getAssetUrl('/images/logo-icon.png')}
+                alt="Ambition Real Estate Logo"
+                className="w-10 h-10 sm:w-12 sm:h-12 object-contain filter drop-shadow-[0_2px_10px_rgba(197,160,89,0.4)] group-hover:scale-105 transition-transform shrink-0"
+              />
 
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5 sm:gap-2">
@@ -42,11 +42,11 @@ export default function Navbar({ onOpenBookingModal }) {
                     AMBITION
                   </span>
                   <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-luxury-gold font-medium px-1 sm:px-1.5 py-0.5 border border-luxury-gold/40 rounded shrink-0">
-                    REALTY
+                    REAL ESTATE
                   </span>
                 </div>
                 <p className="text-[9px] sm:text-[10px] text-gray-300 tracking-wider truncate">
-                  {businessInfo.tagline}
+                  {businessInfo.taglineEn}
                 </p>
               </div>
             </Link>
@@ -101,6 +101,18 @@ export default function Navbar({ onOpenBookingModal }) {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-luxury-darkest border-t border-luxury-border px-4 pt-3 pb-6 space-y-2">
+            <div className="flex items-center gap-3 pb-3 mb-2 border-b border-luxury-border/60">
+              <img
+                src={getAssetUrl('/images/logo-icon.png')}
+                alt="Ambition Real Estate"
+                className="w-10 h-10 object-contain shrink-0 filter drop-shadow-[0_2px_8px_rgba(197,160,89,0.3)]"
+              />
+              <div>
+                <span className="font-serif text-sm font-bold text-white block">Ambition Real Estate</span>
+                <span className="text-[10px] text-luxury-gold tracking-wider">{businessInfo.taglineEn}</span>
+              </div>
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}

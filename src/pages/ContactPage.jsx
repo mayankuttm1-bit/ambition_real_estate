@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { businessInfo } from '../data/properties';
 import { saveInquiry, formatWhatsAppMessage } from '../utils/inquiryStorage';
+import { getAssetUrl } from '../utils/asset';
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState('buyer'); // 'buyer' or 'seller'
@@ -118,6 +119,24 @@ export default function ContactPage() {
           <div className="lg:col-span-5 space-y-6">
             {/* Advisor Card */}
             <div className="rounded-3xl bg-luxury-dark text-white p-8 border border-luxury-gold/50 shadow-2xl space-y-6">
+              {/* Firm Logo Header */}
+              <div className="flex items-center justify-between border-b border-luxury-border/60 pb-4">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={getAssetUrl('/images/logo-icon.png')}
+                    alt="Ambition Real Estate Logo"
+                    className="w-10 h-10 object-contain filter drop-shadow-[0_2px_8px_rgba(197,160,89,0.4)] shrink-0"
+                  />
+                  <div>
+                    <span className="font-serif text-sm font-bold text-white block">Ambition Real Estate</span>
+                    <span className="text-[10px] text-luxury-gold tracking-widest uppercase">{businessInfo.taglineEn}</span>
+                  </div>
+                </div>
+                <span className="px-2.5 py-0.5 rounded-full bg-luxury-gold/20 text-luxury-gold text-[10px] font-bold uppercase tracking-wider border border-luxury-gold/30">
+                  Registered
+                </span>
+              </div>
+
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-luxury-gold via-amber-600 to-luxury-gold-dark p-0.5 shadow-lg flex items-center justify-center shrink-0">
                   <div className="w-full h-full bg-luxury-darkest rounded-[14px] flex items-center justify-center">

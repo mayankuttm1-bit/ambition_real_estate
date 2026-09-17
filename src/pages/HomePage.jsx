@@ -289,10 +289,12 @@ export default function HomePage({ onSelectProperty, onOpenBookingModal }) {
 
                 {/* Header */}
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-luxury-gold via-amber-600 to-luxury-gold-dark p-0.5 shadow-lg flex items-center justify-center shrink-0">
-                    <div className="w-full h-full bg-luxury-darkest rounded-[14px] flex items-center justify-center">
-                      <span className="font-serif text-2xl font-bold text-luxury-gold">UT</span>
-                    </div>
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-luxury-gold/40 via-luxury-surface to-luxury-gold/10 p-1.5 border border-luxury-gold/40 shadow-xl flex items-center justify-center shrink-0">
+                    <img 
+                      src={getAssetUrl(businessInfo.logoIcon)} 
+                      alt="Ambition Real Estate" 
+                      className="w-12 h-12 object-contain drop-shadow-[0_2px_8px_rgba(212,175,55,0.4)]"
+                    />
                   </div>
 
                   <div>

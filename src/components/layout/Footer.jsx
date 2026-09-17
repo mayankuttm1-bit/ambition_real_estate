@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, Star, ShieldCheck, ChevronRight, MessageCircle } from 'lucide-react';
 import { businessInfo } from '../../data/properties';
+import { getAssetUrl } from '../../utils/asset';
 
 export default function Footer() {
   return (
@@ -58,15 +59,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Col 1 & 2: Brand Story */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-luxury-gold p-0.5 flex items-center justify-center">
-                <div className="w-full h-full bg-luxury-darkest rounded-[6px] flex items-center justify-center">
-                  <span className="font-serif text-lg font-bold text-luxury-gold">A</span>
-                </div>
-              </div>
+            <div className="flex items-center gap-3.5">
+              <img
+                src={getAssetUrl('/images/logo-icon.png')}
+                alt="Ambition Real Estate Logo"
+                className="w-12 h-12 sm:w-14 sm:h-14 object-contain filter drop-shadow-[0_2px_12px_rgba(197,160,89,0.35)] shrink-0"
+              />
               <div>
-                <span className="font-serif text-xl font-bold tracking-wider text-white">AMBITION REAL ESTATE</span>
-                <p className="text-[11px] text-luxury-gold tracking-widest uppercase">आपका विश्वास, हमारी जिम्मेदारी</p>
+                <span className="font-serif text-xl sm:text-2xl font-bold tracking-wider text-white block">AMBITION REAL ESTATE</span>
+                <p className="text-[11px] text-luxury-gold tracking-widest uppercase">{businessInfo.taglineEn}</p>
               </div>
             </div>
 

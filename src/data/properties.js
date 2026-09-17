@@ -3,7 +3,7 @@ import { getAssetUrl } from '../utils/asset';
 export const businessInfo = {
   name: "Ambition Real Estate",
   tagline: "आपका विश्वास, हमारी जिम्मेदारी",
-  taglineEn: "Trust, Transparency & Results",
+  taglineEn: "Your Ambition, Our Commitment",
   advisor: "Ujjwal Tiwari",
   phone1: "+91 70008 95068",
   phone2: "+91 90745 90395",
@@ -16,6 +16,9 @@ export const businessInfo = {
   hours: "Open Daily (Closes at 10:00 PM)",
   experienceYears: "10+",
   bookingFeature: "Flexible 25% Booking Option with 100% Clear Titles",
+  logo: "/images/logo.png",
+  logoTransparent: "/images/logo-transparent.png",
+  logoIcon: "/images/logo-icon.png",
 };
 
 const rawProperties = [

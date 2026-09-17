@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { businessInfo } from '../../data/properties';
 import { saveInquiry, formatWhatsAppMessage } from '../../utils/inquiryStorage';
+import { getAssetUrl } from '../../utils/asset';
 
 export default function LeadModal({ isOpen, onClose, initialProperty = null, initialType = 'buyer' }) {
   const [inquiryType, setInquiryType] = useState(initialType); // 'buyer' or 'seller'
@@ -98,20 +99,27 @@ export default function LeadModal({ isOpen, onClose, initialProperty = null, ini
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
       <div className="relative w-full max-w-xl bg-luxury-darkest border border-luxury-gold/50 rounded-3xl shadow-2xl overflow-hidden text-white animate-fadeInScale max-h-[92vh] flex flex-col">
         {/* Top Header Ribbon */}
-        <div className="bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark p-5 sm:p-6 border-b border-luxury-border shrink-0 flex items-start justify-between">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-luxury-gold/20 text-luxury-gold text-[11px] font-semibold uppercase tracking-wider mb-2 border border-luxury-gold/30">
-              <ShieldCheck size={13} />
-              <span>Ambition Real Estate Advisory Desk</span>
+        <div className="bg-gradient-to-r from-luxury-dark via-luxury-deep to-luxury-dark p-5 sm:p-6 border-b border-luxury-border shrink-0 flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3.5">
+            <img
+              src={getAssetUrl('/images/logo-icon.png')}
+              alt="Ambition Real Estate"
+              className="w-11 h-11 object-contain filter drop-shadow-[0_2px_8px_rgba(197,160,89,0.35)] shrink-0 hidden sm:block mt-0.5"
+            />
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-luxury-gold/20 text-luxury-gold text-[11px] font-semibold uppercase tracking-wider mb-2 border border-luxury-gold/30">
+                <ShieldCheck size={13} />
+                <span>Ambition Real Estate Advisory Desk</span>
+              </div>
+              <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
+                {inquiryType === 'buyer' 
+                  ? (initialProperty ? `Inquire: ${initialProperty.title}` : 'Schedule Free Guided Site Visit')
+                  : 'List Your Property for Sale with Us'}
+              </h3>
+              <p className="text-xs text-gray-300 mt-1">
+                Direct connection with Senior Advisor <strong className="text-luxury-gold">{businessInfo.advisor}</strong> (Open daily till 10:00 PM)
+              </p>
             </div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-white">
-              {inquiryType === 'buyer' 
-                ? (initialProperty ? `Inquire: ${initialProperty.title}` : 'Schedule Free Guided Site Visit')
-                : 'List Your Property for Sale with Us'}
-            </h3>
-            <p className="text-xs text-gray-300 mt-1">
-              Direct connection with Senior Advisor <strong className="text-luxury-gold">{businessInfo.advisor}</strong> (Open daily till 10:00 PM)
-            </p>
           </div>
 
           <button
